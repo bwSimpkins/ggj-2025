@@ -21,3 +21,5 @@ func _process(delta):
 		position.y -= 100 * delta
 	if Input.is_action_pressed("move_down"):
 		position.y += 100 * delta
+	if Input.is_action_pressed("interact"):
+		rotation_degrees += 180 * delta
