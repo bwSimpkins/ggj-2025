@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://sxstq2ad1exd"]
+
+[ext_resource type="Script" path="res://scenes/game/tetromino/tetromino.gd" id="1_p887k"]
+[ext_resource type="Script" path="res://scenes/game/statemachine/finite_state_machine.gd" id="2_srue1"]
+[ext_resource type="Script" path="res://scenes/game/statemachine/rising.gd" id="3_la0b0"]
+[ext_resource type="Script" path="res://scenes/game/statemachine/coyote.gd" id="4_2uvnu"]
+[ext_resource type="Script" path="res://scenes/game/statemachine/placed.gd" id="5_xdfeq"]
+
+[node name="Tetromino" type="Node2D"]
+script = ExtResource("1_p887k")
+letter = "J"
+
+[node name="GameClock" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.5
+autostart = true
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "game_clock")]
+unique_name_in_owner = true
+script = ExtResource("2_srue1")
+initial_state = NodePath("Rising")
+game_clock = NodePath("../GameClock")
+
+[node name="Rising" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("tetromino")]
+script = ExtResource("3_la0b0")
+tetromino = NodePath("../..")
+
+[node name="Coyote" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("tetromino")]
+script = ExtResource("4_2uvnu")
+tetromino = NodePath("../..")
+
+[node name="Placed" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("tetromino")]
+script = ExtResource("5_xdfeq")
+tetromino = NodePath("../..")
+
+[node name="Bubbles" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Degree0" type="Node2D" parent="Bubbles"]
+unique_name_in_owner = true
+
+[node name="Degree90" type="Node2D" parent="Bubbles"]
+unique_name_in_owner = true
+
+[node name="Degree180" type="Node2D" parent="Bubbles"]
+unique_name_in_owner = true
+
+[node name="Degree270" type="Node2D" parent="Bubbles"]
+unique_name_in_owner = true

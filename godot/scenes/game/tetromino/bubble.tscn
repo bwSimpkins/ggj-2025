@@ -1,0 +1,124 @@
+[gd_scene load_steps=5 format=3 uid="uid://1c257f21k3oc"]
+
+[ext_resource type="Script" path="res://scenes/game/tetromino/bubble.gd" id="1_bpdb4"]
+[ext_resource type="Texture2D" uid="uid://cfm63bfm37p0o" path="res://scenes/game/tetromino/bubble.png" id="2_vq250"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vlpxg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wx47q"]
+
+[node name="Bubble" type="Node2D"]
+script = ExtResource("1_bpdb4")
+
+[node name="Bubble" type="Sprite2D" parent="."]
+texture = ExtResource("2_vq250")
+
+[node name="SlamCast" type="RayCast2D" parent="."]
+unique_name_in_owner = true
+scale = Vector2(1.01766, 1.07232)
+target_position = Vector2(0, -656)
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="DetectionRows" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Row[-2]" type="Node2D" parent="DetectionRows"]
+
+[node name="Area[0]" type="Area2D" parent="DetectionRows/Row[-2]"]
+position = Vector2(0, -64)
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[-2]/Area[0]"]
+shape = SubResource("CircleShape2D_vlpxg")
+
+[node name="Row[-1]" type="Node2D" parent="DetectionRows"]
+
+[node name="Area[-1]" type="Area2D" parent="DetectionRows/Row[-1]"]
+position = Vector2(-32, -32)
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[-1]/Area[-1]"]
+shape = SubResource("CircleShape2D_vlpxg")
+
+[node name="Area[0]" type="Area2D" parent="DetectionRows/Row[-1]"]
+position = Vector2(0, -32)
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[-1]/Area[0]"]
+shape = SubResource("CircleShape2D_vlpxg")
+
+[node name="Area[1]" type="Area2D" parent="DetectionRows/Row[-1]"]
+position = Vector2(32, -32)
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[-1]/Area[1]"]
+shape = SubResource("CircleShape2D_vlpxg")
+
+[node name="Row[0]" type="Node2D" parent="DetectionRows"]
+
+[node name="Area[-2]" type="Area2D" parent="DetectionRows/Row[0]"]
+position = Vector2(-64, 0)
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[0]/Area[-2]"]
+shape = SubResource("CircleShape2D_vlpxg")
+
+[node name="Area[-1]" type="Area2D" parent="DetectionRows/Row[0]"]
+position = Vector2(-32, 0)
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[0]/Area[-1]"]
+shape = SubResource("CircleShape2D_vlpxg")
+
+[node name="Area[0]" type="Area2D" parent="DetectionRows/Row[0]"]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[0]/Area[0]"]
+shape = SubResource("CircleShape2D_wx47q")
+
+[node name="Area[1]" type="Area2D" parent="DetectionRows/Row[0]"]
+position = Vector2(32, 0)
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[0]/Area[1]"]
+shape = SubResource("CircleShape2D_vlpxg")
+
+[node name="Area[2]" type="Area2D" parent="DetectionRows/Row[0]"]
+position = Vector2(64, 0)
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[0]/Area[2]"]
+shape = SubResource("CircleShape2D_vlpxg")
+
+[node name="Row[1]" type="Node2D" parent="DetectionRows"]
+
+[node name="Area[-1]" type="Area2D" parent="DetectionRows/Row[1]"]
+position = Vector2(-32, 32)
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[1]/Area[-1]"]
+shape = SubResource("CircleShape2D_vlpxg")
+
+[node name="Area[0]" type="Area2D" parent="DetectionRows/Row[1]"]
+position = Vector2(0, 32)
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[1]/Area[0]"]
+shape = SubResource("CircleShape2D_vlpxg")
+
+[node name="Area[1]" type="Area2D" parent="DetectionRows/Row[1]"]
+position = Vector2(32, 32)
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[1]/Area[1]"]
+shape = SubResource("CircleShape2D_vlpxg")
+
+[node name="Row[2]" type="Node2D" parent="DetectionRows"]
+
+[node name="Area[0]" type="Area2D" parent="DetectionRows/Row[2]"]
+position = Vector2(0, 64)
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[2]/Area[0]"]
+shape = SubResource("CircleShape2D_vlpxg")
