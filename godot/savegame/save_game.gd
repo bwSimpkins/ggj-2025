@@ -3,7 +3,8 @@ class_name SaveGame extends Node
 
 const ENABLED = true
 const ENCRYPTION_KEY = "godotrules"
-const SAVE_GAME_TEMPLATE = "savegame.save"
+const VERSION = "1_0_0"
+const SAVE_GAME_TEMPLATE = VERSION + "savegame.save"
 const SAVE_GROUP_NAME = "Persist"
 const NODE_DATA = "node_data"
 
