@@ -1,7 +1,8 @@
 extends Node2D
 class_name PlayArea
 
-@export var consecutive_bubbles_pop = 10
+
+const CONSECUTIVE_BUBBLE_POP = 10.0
 
 
 signal PoppedBubbles
@@ -20,6 +21,7 @@ var total_score = 0
 var index = -1
 
 
+
 func is_position_blocked(pos: Vector2) -> bool:
 	var pos_i = _to_vector2i(pos)
 	return !bubble_grid.has(pos_i.y) \
@@ -32,7 +34,6 @@ func _to_vector2i(vec: Vector2) -> Vector2i:
 
 
 func _ready() -> void:
-	consecutive_bubbles_pop = min(%Grid.width, consecutive_bubbles_pop)
 	for row in %Grid.height:
 		bubble_grid[row] = {}
 		for col in %Grid.width:
@@ -72,6 +73,8 @@ func _on_placed(bubbles: Array[Bubble], tetromino_position: Vector2) -> void:
 	
 
 func _handle_placed_bubbles(changed_rows: Array[int]) -> void:
+	var consecutive_bubbles_pop = min(%Grid.width, CONSECUTIVE_BUBBLE_POP)
+	
 	var popped_bubbles: Array[Bubble] = []
 	const DEFAULT = Vector2i(-1, -1)
 	var top_left_popped: Vector2i = Vector2i(-1, -1)
