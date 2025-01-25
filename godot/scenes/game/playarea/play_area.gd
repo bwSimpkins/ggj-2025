@@ -7,14 +7,17 @@ class_name PlayArea
 signal PoppedBubbles
 
 
+# Constanst
 const TETROMINO = preload("res://scenes/game/tetromino/tetromino.tscn")
 const PIXELS_TO_UNITS = 32
+const NUM_ROWS = 24
 
 
-# Dictionary[int, Dictionary[int, Bubble|null]]
+# Global Variables
 var bubble_grid: Dictionary = {}
-
 var spawn_pos: Vector2i
+var total_score = 0
+var index = -1
 
 
 func is_position_blocked(pos: Vector2) -> bool:
@@ -50,17 +53,22 @@ func _spawn_tetromino() -> void:
 	
 func _on_placed(bubbles: Array[Bubble], tetromino_position: Vector2) -> void:
 	var changed_rows: Array[int] = []
+	var num_bubbles = 0
 	for bubble in bubbles:
+		num_bubbles += 1
 		bubble.position += tetromino_position
 		add_child(bubble)
 		var row := int(bubble.position.y / PIXELS_TO_UNITS)
 		var col := int(bubble.position.x / PIXELS_TO_UNITS)
+		bubble.row = row
+		bubble.column = col
 		assert(bubble_grid[row][col] == null)
 		bubble_grid[row][col] = bubble
 		changed_rows.append(row)
 	changed_rows.sort()
 	await _handle_placed_bubbles(changed_rows)
 	_spawn_tetromino()
+	#print(total_score)
 	
 
 func _handle_placed_bubbles(changed_rows: Array[int]) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cik30de5gaaah"]
+[gd_scene load_steps=17 format=3 uid="uid://cik30de5gaaah"]
 
 [ext_resource type="Script" path="res://scenes/game/ingame_scene.gd" id="1_s0oxc"]
 [ext_resource type="PackedScene" uid="uid://it8krv030uwn" path="res://scenes/game/playarea/play_area.tscn" id="4_6x0xm"]
@@ -14,6 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://b00shkl8lx466" path="res://soundeffects/bubblepop_6.wav" id="12_o66o3"]
 [ext_resource type="AudioStream" uid="uid://royr2isrbhjs" path="res://soundeffects/bubblepop_7.wav" id="13_71ku8"]
 [ext_resource type="AudioStream" uid="uid://b1ya2jhov0bhm" path="res://soundeffects/bubblepop_8.wav" id="14_qu3nv"]
+[ext_resource type="Script" path="res://scenes/game/score.gd" id="15_wud1j"]
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_fbvm3"]
 shuffle = true
@@ -62,3 +63,8 @@ bus = &"Music"
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamPlaylist_fbvm3")
 bus = &"Sound"
+
+[node name="Score" type="Node2D" parent="."]
+script = ExtResource("15_wud1j")
+
+[connection signal="PoppedBubbles" from="PlayArea" to="Score" method="_on_play_area_popped_bubbles"]

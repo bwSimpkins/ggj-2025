@@ -1,9 +1,16 @@
 extends Node2D
 class_name Bubble
 
+
 const DEFAULT_TICK = .5
 const BUBBLE_POP_DURATION = 0.5
 const NEXT_BUBBLE_WAIT = 0.05
+
+
+var row 
+var column
+var score = 10
+	
 
 func pop(ordinal: int) -> void:
 	await get_tree().create_timer(ordinal * NEXT_BUBBLE_WAIT).timeout 
