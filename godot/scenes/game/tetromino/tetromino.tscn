@@ -8,7 +8,7 @@
 
 [node name="Tetromino" type="Node2D"]
 script = ExtResource("1_p887k")
-letter = "J"
+letter = "Z"
 
 [node name="GameClock" type="Timer" parent="."]
 unique_name_in_owner = true
@@ -21,17 +21,14 @@ script = ExtResource("2_srue1")
 initial_state = NodePath("Rising")
 game_clock = NodePath("../GameClock")
 
-[node name="Rising" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("tetromino")]
+[node name="Rising" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("3_la0b0")
-tetromino = NodePath("../..")
 
-[node name="Coyote" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("tetromino")]
+[node name="Coyote" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("4_2uvnu")
-tetromino = NodePath("../..")
 
-[node name="Placed" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("tetromino")]
+[node name="Placed" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("5_xdfeq")
-tetromino = NodePath("../..")
 
 [node name="Bubbles" type="Node2D" parent="."]
 unique_name_in_owner = true

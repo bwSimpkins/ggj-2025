@@ -10,8 +10,13 @@ var states: Dictionary = {}
 
 
 func _ready():
+	assert(game_clock is Timer)
+	var tetromino: Tetromino = get_parent()
+	
 	for child in get_children():
 		if child is TetrominoState:
+			child.tetromino = tetromino
+			child.game_clock = game_clock
 			states[child.name.to_lower()] = child
 			child.Transition.connect(on_child_transition)
 			
@@ -25,9 +30,9 @@ func _ready():
 	game_clock.timeout.connect(_on_game_tick_update)
 	
 
-func _process(delta: float):
+func process(delta: float):
 	if current_state:
-		current_state.process(delta, game_clock)
+		current_state.process(delta)
 
 
 func _on_game_tick_update():

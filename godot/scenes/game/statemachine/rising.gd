@@ -3,9 +3,8 @@ class_name Rising
 
 
 func game_tick_update():
-	var coyote_time = tetromino.is_position_blocked(Vector2(0, -2))
-	if not tetromino.is_up_blocked():
-		tetromino.position.y -= tetromino.PIXELS_PER_UNIT
-	if coyote_time:
+	super.game_tick_update()
+	if tetromino.is_position_blocked(Vector2(0, -2)):
 		Transition.emit(self, "Coyote")
+	tetromino.try_move(Vector2.UP, true)
 	
