@@ -27,6 +27,10 @@ func animation_place(game_tick_length:float) -> void:
 	%BubbleAnimationPlayer.speed_scale = .1
 	%BubbleAnimationPlayer.queue("idle")
 
+func animation_pop(game_tick_length:float) -> void:
+	%BubbleAnimationPlayer.speed_scale = 2 * (DEFAULT_TICK/game_tick_length)
+	%BubbleAnimationPlayer.play("pop")
+	
 func animation_idle() -> void:
 	%BubbleAnimationPlayer.speed_scale = .1
 	%BubbleAnimationPlayer.queue("idle")
