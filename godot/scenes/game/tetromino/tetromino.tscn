@@ -32,15 +32,3 @@ script = ExtResource("5_xdfeq")
 
 [node name="Bubbles" type="Node2D" parent="."]
 unique_name_in_owner = true
-
-[node name="Degree0" type="Node2D" parent="Bubbles"]
-unique_name_in_owner = true
-
-[node name="Degree90" type="Node2D" parent="Bubbles"]
-unique_name_in_owner = true
-
-[node name="Degree180" type="Node2D" parent="Bubbles"]
-unique_name_in_owner = true
-
-[node name="Degree270" type="Node2D" parent="Bubbles"]
-unique_name_in_owner = true

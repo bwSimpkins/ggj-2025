@@ -1,11 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://1c257f21k3oc"]
+[gd_scene load_steps=9 format=3 uid="uid://1c257f21k3oc"]
 
 [ext_resource type="Script" path="res://scenes/game/tetromino/bubble.gd" id="1_bpdb4"]
 [ext_resource type="Texture2D" uid="uid://c82x21cbe6d58" path="res://scenes/game/tetromino/BubbleSpriteSheet.png" id="2_o40ts"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_vlpxg"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_wx47q"]
 
 [sub_resource type="Animation" id="Animation_ombim"]
 resource_name = "Place"
@@ -124,21 +120,6 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.521569), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_e3y76"]
-resource_name = "coyote"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Bubble:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.521569), Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="Animation" id="Animation_4brws"]
 resource_name = "idle"
 loop_mode = 1
@@ -206,7 +187,6 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xjgxk"]
 _data = {
 "Place": SubResource("Animation_ombim"),
@@ -225,116 +205,6 @@ scale = Vector2(1.24787, 1.21768)
 texture = ExtResource("2_o40ts")
 hframes = 2
 vframes = 3
-
-[node name="SlamCast" type="RayCast2D" parent="."]
-unique_name_in_owner = true
-scale = Vector2(1.01766, 1.07232)
-target_position = Vector2(0, -656)
-collide_with_areas = true
-collide_with_bodies = false
-
-[node name="DetectionRows" type="Node2D" parent="."]
-unique_name_in_owner = true
-
-[node name="Row[-2]" type="Node2D" parent="DetectionRows"]
-
-[node name="Area[0]" type="Area2D" parent="DetectionRows/Row[-2]"]
-position = Vector2(0, -64)
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[-2]/Area[0]"]
-shape = SubResource("CircleShape2D_vlpxg")
-
-[node name="Row[-1]" type="Node2D" parent="DetectionRows"]
-
-[node name="Area[-1]" type="Area2D" parent="DetectionRows/Row[-1]"]
-position = Vector2(-32, -32)
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[-1]/Area[-1]"]
-shape = SubResource("CircleShape2D_vlpxg")
-
-[node name="Area[0]" type="Area2D" parent="DetectionRows/Row[-1]"]
-position = Vector2(0, -32)
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[-1]/Area[0]"]
-shape = SubResource("CircleShape2D_vlpxg")
-
-[node name="Area[1]" type="Area2D" parent="DetectionRows/Row[-1]"]
-position = Vector2(32, -32)
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[-1]/Area[1]"]
-shape = SubResource("CircleShape2D_vlpxg")
-
-[node name="Row[0]" type="Node2D" parent="DetectionRows"]
-
-[node name="Area[-2]" type="Area2D" parent="DetectionRows/Row[0]"]
-position = Vector2(-64, 0)
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[0]/Area[-2]"]
-shape = SubResource("CircleShape2D_vlpxg")
-
-[node name="Area[-1]" type="Area2D" parent="DetectionRows/Row[0]"]
-position = Vector2(-32, 0)
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[0]/Area[-1]"]
-shape = SubResource("CircleShape2D_vlpxg")
-
-[node name="Area[0]" type="Area2D" parent="DetectionRows/Row[0]"]
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[0]/Area[0]"]
-shape = SubResource("CircleShape2D_wx47q")
-
-[node name="Area[1]" type="Area2D" parent="DetectionRows/Row[0]"]
-position = Vector2(32, 0)
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[0]/Area[1]"]
-shape = SubResource("CircleShape2D_vlpxg")
-
-[node name="Area[2]" type="Area2D" parent="DetectionRows/Row[0]"]
-position = Vector2(64, 0)
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[0]/Area[2]"]
-shape = SubResource("CircleShape2D_vlpxg")
-
-[node name="Row[1]" type="Node2D" parent="DetectionRows"]
-
-[node name="Area[-1]" type="Area2D" parent="DetectionRows/Row[1]"]
-position = Vector2(-32, 32)
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[1]/Area[-1]"]
-shape = SubResource("CircleShape2D_vlpxg")
-
-[node name="Area[0]" type="Area2D" parent="DetectionRows/Row[1]"]
-position = Vector2(0, 32)
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[1]/Area[0]"]
-shape = SubResource("CircleShape2D_vlpxg")
-
-[node name="Area[1]" type="Area2D" parent="DetectionRows/Row[1]"]
-position = Vector2(32, 32)
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[1]/Area[1]"]
-shape = SubResource("CircleShape2D_vlpxg")
-
-[node name="Row[2]" type="Node2D" parent="DetectionRows"]
-
-[node name="Area[0]" type="Area2D" parent="DetectionRows/Row[2]"]
-position = Vector2(0, 64)
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRows/Row[2]/Area[0]"]
-shape = SubResource("CircleShape2D_vlpxg")
 
 [node name="BubbleAnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true

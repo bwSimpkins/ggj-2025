@@ -6,5 +6,5 @@ func game_tick_update():
 	super.game_tick_update()
 	if tetromino.is_position_blocked(Vector2(0, -2)):
 		Transition.emit(self, "Coyote")
-	tetromino.try_move(Vector2.UP, true)
+	tetromino.try_move(Vector2.UP)
 	
