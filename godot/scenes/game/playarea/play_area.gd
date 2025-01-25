@@ -15,9 +15,6 @@ const NUM_ROWS = 24
 
 # Global Variables
 var bubble_grid: Dictionary = {}
-var bubbles_in_row: Array = []
-var bubble_rows: Array = []
-var bubble_scores: Array = []
 var spawn_pos: Vector2i
 var total_score = 0
 var index = -1
@@ -35,7 +32,6 @@ func _to_vector2i(vec: Vector2) -> Vector2i:
 
 
 func _ready() -> void:
-	_populate_array(bubbles_in_row)
 	consecutive_bubbles_pop = min(%Grid.width, consecutive_bubbles_pop)
 	for row in %Grid.height:
 		bubble_grid[row] = {}
@@ -45,13 +41,6 @@ func _ready() -> void:
 	spawn_pos = Vector2i(int(%Grid.width / 2), %Grid.height - 1)
 			
 	_spawn_tetromino()
-	
-	
-func _populate_array(array: Array) -> void:
-	array.resize(%Grid.height)
-	for i in range(array.size()):
-		array[i] = 0
-	
 	
 	
 func _spawn_tetromino() -> void:
@@ -76,36 +65,10 @@ func _on_placed(bubbles: Array[Bubble], tetromino_position: Vector2) -> void:
 		assert(bubble_grid[row][col] == null)
 		bubble_grid[row][col] = bubble
 		changed_rows.append(row)
-		bubble_scores.append(bubble.score)
-		bubble_rows.append(bubble.row)
-		bubbles_in_row[bubble.row] += 1
-	_check_score(bubbles)
 	changed_rows.sort()
 	await _handle_placed_bubbles(changed_rows)
 	_spawn_tetromino()
-	print(total_score)
-	
-
-# Checks to see if we have a line of ten or more bubbles to add to the score
-# Parameter: bubbles is the array of our bubble objects
-# Return nothing
-func _check_score(bubbles: Array[Bubble]) -> void:
-	for bubble_row in bubbles_in_row:
-		if bubble_row >= 10:
-			index = bubbles_in_row.find(10, 0)
-			bubbles_in_row[index] = 0
-			tally_score(index)
-	
-
-# If we have scored then we add up the score within the total_score var
-# Parameter: row is the row in which the score was acheived. 
-# Returns nothing
-func tally_score(row: int) -> void:
-	for bubble_score in bubble_scores:
-		for bubble_row in bubble_rows:
-			if bubble_row == row:
-				total_score += bubble_score
-	total_score = total_score / 10
+	#print(total_score)
 	
 
 func _handle_placed_bubbles(changed_rows: Array[int]) -> void:
