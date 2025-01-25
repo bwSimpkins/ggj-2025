@@ -2,18 +2,20 @@ extends Node2D
 class_name Bubble
 
 const DEFAULT_TICK = .5
-
-
-func is_position_blocked(pos: Vector2) -> bool:
-	var area = get_node("DetectionRows/Row[%d]/Area[%d]" % [pos.y, pos.x])
-	var blocked = area is not Area2D || area.has_overlapping_areas()
-	return blocked
+const BUBBLE_POP_DURATION = 0
 	
 
-func on_place() -> void:
-	var area: Area2D = get_node("DetectionRows/Row[0]/Area[0]")
-	area.monitorable = true
-	remove_child(%SlamCast)
+func pop(_ordinal: int) -> void:
+	queue_free()
+	
+
+func change_position_after_pop(pop_count: int, pos: Vector2) -> void:
+	var tween = create_tween()
+	tween.tween_interval(pop_count * BUBBLE_POP_DURATION)
+	tween.tween_property(self, "position", pos, 0.75) \
+		.set_trans(Tween.TRANS_BACK) \
+		.set_ease(Tween.EASE_IN_OUT)
+	animation_place(0.5) # todo fix
 
 	
 func distance_to_slam() -> float:

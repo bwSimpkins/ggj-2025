@@ -22,7 +22,7 @@ process_mode = 2
 visible = false
 
 [node name="PlayArea" parent="." instance=ExtResource("4_6x0xm")]
-position = Vector2(288, 288)
+position = Vector2(35, 25)
 scale = Vector2(0.45, 0.45)
 
 [node name="IntroMusic" type="AudioStreamPlayer" parent="."]

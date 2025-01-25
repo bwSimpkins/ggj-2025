@@ -7,6 +7,8 @@ signal Placed
 
 @export_enum("I", "O", "T", "J", "L", "S", "Z") var letter: String = "T"
 
+var play_area: PlayArea
+
 
 const PIXELS_PER_UNIT = 32
 
@@ -34,48 +36,25 @@ const BUBBLE := preload("res://scenes/game/tetromino/bubble.tscn")
 
 var _current_rotation: int = 0
 
-const _MOVE_COOLDOWN: float = 0.07
-var _time_till_move: float = 0.0
-
 func _ready() -> void:
+	play_area = get_parent()
 	assert(letter in TETROMINO_MAP and letter in TETROMINO_COLORS)
 	var color = TETROMINO_COLORS[letter]
 	for pos in TETROMINO_MAP[letter]:
-		
 		var bubble = BUBBLE.instantiate()
 		bubble.modulate = color
 		bubble.position = pos * PIXELS_PER_UNIT
-		%Degree0.add_child(bubble)
-		
-		var pos90 = _rotate90(pos)
-		var bubble90 = bubble.duplicate()
-		bubble90.position = pos90 * PIXELS_PER_UNIT
-		bubble90.visible = false
-		%Degree90.add_child(bubble90)
-		
-		var pos180 = _rotate90(pos90)
-		var bubble180 = bubble.duplicate()
-		bubble180.position = pos180 * PIXELS_PER_UNIT
-		bubble180.visible = false
-		%Degree180.add_child(bubble180)
-		
-		var pos270 = _rotate90(pos180)
-		var bubble270 = bubble.duplicate()
-		bubble270.position = pos270 * PIXELS_PER_UNIT
-		bubble270.visible = false
-		%Degree270.add_child(bubble270)
+		%Bubbles.add_child(bubble)
 		
 
 func _process(delta: float) -> void:
-	_time_till_move -= delta
 	%FiniteStateMachine.process(delta)
 
 
-func try_move(vec: Vector2, force: bool = false) -> bool:
-	if (_time_till_move > 0 && not force) || is_position_blocked(vec):
+func try_move(vec: Vector2) -> bool:
+	if is_position_blocked(vec):
 		return false
 	position += vec * PIXELS_PER_UNIT
-	_time_till_move = _MOVE_COOLDOWN
 	return true
 	
 
@@ -86,26 +65,30 @@ func slam_time(vec: Vector2, force: bool = false) -> void:
 	
 
 func process_rotate(degrees: int) -> void:
-	var previous_bubbles = get_bubbles()
 	_current_rotation = (_current_rotation + degrees) % 360
-	var current_bubbles = get_bubbles()
-	
+
 	if not wall_kick():
+		# cannot rotate, undo rotation
 		_current_rotation = (_current_rotation + 360 - degrees) % 360
 		return
 	
-	for child in previous_bubbles:
-		if child is Bubble:
-			child.visible = false
-	for child in current_bubbles:
-		if child is Bubble:
-			child.visible = true
+	var i = 0
+	var bubble_positions_after_rotate = _get_bubble_positions()
+	for bubble in get_bubbles():
+		bubble.position = bubble_positions_after_rotate[i] * PIXELS_PER_UNIT
+		i += 1
 	
 
-func _rotate90(pos: Vector2) -> Vector2:
+func _rotate(pos: Vector2, degrees: int) -> Vector2:
 	var pivot := Vector2(0.5, -0.5) if letter == 'I' || letter == 'O' else Vector2.ZERO
 	var relative_pos = pos - pivot
-	var rotated_pos = Vector2(relative_pos.y, -relative_pos.x)
+	var rotated_pos = relative_pos
+	if degrees == 90:
+		rotated_pos = Vector2(relative_pos.y, -relative_pos.x)
+	elif degrees == 180:
+		rotated_pos = Vector2(-relative_pos.x, -relative_pos.y)
+	elif degrees == 270:
+		rotated_pos = Vector2(-relative_pos.y, relative_pos.x)
 	return rotated_pos + pivot
 	
 	
@@ -145,16 +128,23 @@ func is_up_blocked() -> bool:
 	
 
 func is_position_blocked(pos: Vector2) -> bool:
-	for bubble in get_bubbles():
-		if bubble.is_position_blocked(pos):
+	for bubble_position in _get_bubble_positions():
+		var pos_b = (position / PIXELS_PER_UNIT) + bubble_position + pos
+		if play_area.is_position_blocked(pos_b):
 			return true
 	return false
 
 
+func _get_bubble_positions() -> Array[Vector2]:
+	var positions: Array[Vector2] = []
+	for bubble_position in TETROMINO_MAP[letter]:
+		positions.append(_rotate(bubble_position, _current_rotation))
+	return positions
+	
+
 func get_bubbles() -> Array[Bubble]:
 	var bubbles: Array[Bubble] = []
-	var parent = get_node('Bubbles/Degree%d' % [_current_rotation])
-	for child in parent.get_children():
+	for child in %Bubbles.get_children():
 		if child is Bubble:
 			bubbles.append(child)
 	return bubbles
@@ -164,7 +154,6 @@ func handle_placed() -> void:
 	var bubbles = get_bubbles()
 	for bubble in bubbles:
 		bubble.get_parent().remove_child(bubble)
-		bubble.on_place()
 		bubble.animation_place(%GameClock.wait_time)
 	Placed.emit(bubbles, position)
 	queue_free()
