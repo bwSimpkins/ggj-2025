@@ -64,19 +64,21 @@ func slam_time(vec: Vector2, force: bool = false) -> void:
 		break
 	
 
-func process_rotate(degrees: int) -> void:
+func process_rotate(degrees: int) -> bool:
 	_current_rotation = (_current_rotation + degrees) % 360
 
 	if not wall_kick():
 		# cannot rotate, undo rotation
 		_current_rotation = (_current_rotation + 360 - degrees) % 360
-		return
+		return false
 	
 	var i = 0
 	var bubble_positions_after_rotate = _get_bubble_positions()
 	for bubble in get_bubbles():
 		bubble.position = bubble_positions_after_rotate[i] * PIXELS_PER_UNIT
 		i += 1
+		
+	return true
 	
 
 func _rotate(pos: Vector2, degrees: int) -> Vector2:
