@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cik30de5gaaah"]
+[gd_scene load_steps=16 format=3 uid="uid://cik30de5gaaah"]
 
 [ext_resource type="Script" path="res://scenes/game/ingame_scene.gd" id="1_s0oxc"]
 [ext_resource type="PackedScene" uid="uid://it8krv030uwn" path="res://scenes/game/playarea/play_area.tscn" id="4_6x0xm"]
@@ -6,6 +6,28 @@
 [ext_resource type="AudioStream" uid="uid://dakxtc7ahssr" path="res://music/ProjectZodiac-mainloop.wav" id="5_3afph"]
 [ext_resource type="AudioStream" uid="uid://blqt0qw1uhrrw" path="res://music/ProjectZodiac-loopintro.wav" id="5_eqvtv"]
 [ext_resource type="PackedScene" uid="uid://jyv4g54adkmo" path="res://ui/overlays/pause_overlay.tscn" id="5_kwkh4"]
+[ext_resource type="AudioStream" uid="uid://c3ya1wk0fagd5" path="res://soundeffects/bubblepop_1.wav" id="7_3ti81"]
+[ext_resource type="AudioStream" uid="uid://ouyj63abl7nv" path="res://soundeffects/bubblepop_2.wav" id="8_hqdh5"]
+[ext_resource type="AudioStream" uid="uid://buxxu0ydmadq4" path="res://soundeffects/bubblepop_3.wav" id="9_kuqnv"]
+[ext_resource type="AudioStream" uid="uid://1eavofef2o3t" path="res://soundeffects/bubblepop_4.wav" id="10_k3p1g"]
+[ext_resource type="AudioStream" uid="uid://dn8qdyfolm02p" path="res://soundeffects/bubblepop_5.wav" id="11_0ihtw"]
+[ext_resource type="AudioStream" uid="uid://b00shkl8lx466" path="res://soundeffects/bubblepop_6.wav" id="12_o66o3"]
+[ext_resource type="AudioStream" uid="uid://royr2isrbhjs" path="res://soundeffects/bubblepop_7.wav" id="13_71ku8"]
+[ext_resource type="AudioStream" uid="uid://b1ya2jhov0bhm" path="res://soundeffects/bubblepop_8.wav" id="14_qu3nv"]
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_fbvm3"]
+shuffle = true
+loop = false
+fade_time = 0.05
+stream_count = 8
+stream_0 = ExtResource("7_3ti81")
+stream_1 = ExtResource("8_hqdh5")
+stream_2 = ExtResource("9_kuqnv")
+stream_3 = ExtResource("10_k3p1g")
+stream_4 = ExtResource("11_0ihtw")
+stream_5 = ExtResource("12_o66o3")
+stream_6 = ExtResource("13_71ku8")
+stream_7 = ExtResource("14_qu3nv")
 
 [node name="IngameScene" type="Node2D"]
 script = ExtResource("1_s0oxc")
@@ -36,3 +58,7 @@ bus = &"Music"
 unique_name_in_owner = true
 stream = ExtResource("5_3afph")
 bus = &"Music"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamPlaylist_fbvm3")
+bus = &"Sound"

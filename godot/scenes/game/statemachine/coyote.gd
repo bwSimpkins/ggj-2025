@@ -23,14 +23,10 @@ func exit():
 	ticks_since_last_rotation = 1
 	
 	
-func process(delta: float):
+func process(delta: float) -> void:
 	super.process(delta)
 	
-	var is_rotated = Input.is_action_just_pressed("rotate_left") \
-		|| Input.is_action_just_pressed("rotate_right") \
-		|| Input.is_action_just_pressed("rotate_180")
-	
-	if is_rotated:
+	if action_this_frame:
 		ticks_since_last_rotation = 0
 		
 		for bubble in tetromino.get_bubbles():
