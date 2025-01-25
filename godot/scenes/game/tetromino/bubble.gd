@@ -2,21 +2,22 @@ extends Node2D
 class_name Bubble
 
 const DEFAULT_TICK = .5
-const BUBBLE_POP_DURATION = 0
-	
+const BUBBLE_POP_DURATION = 0.5
+const NEXT_BUBBLE_WAIT = 0.05
 
-func pop(_ordinal: int) -> void:
+func pop(ordinal: int) -> void:
+	await get_tree().create_timer(ordinal * NEXT_BUBBLE_WAIT).timeout 
+	animation_pop(.5) #todo fix
+	await %BubbleAnimationPlayer.animation_finished
 	queue_free()
 	
-
-func change_position_after_pop(pop_count: int, pos: Vector2) -> void:
+func change_position_after_pop(pop_count: int, pos: Vector2) -> Signal:
 	var tween = create_tween()
-	tween.tween_interval(pop_count * BUBBLE_POP_DURATION)
 	tween.tween_property(self, "position", pos, 0.75) \
 		.set_trans(Tween.TRANS_BACK) \
 		.set_ease(Tween.EASE_IN_OUT)
 	animation_place(0.5) # todo fix
-
+	return tween.finished
 	
 func distance_to_slam() -> float:
 	assert(%SlamCast.is_colliding())
@@ -30,7 +31,7 @@ func animation_place(game_tick_length:float) -> void:
 	%BubbleAnimationPlayer.queue("idle")
 
 func animation_pop(game_tick_length:float) -> void:
-	%BubbleAnimationPlayer.speed_scale = 2 * (DEFAULT_TICK/game_tick_length)
+	%BubbleAnimationPlayer.speed_scale = 1 / BUBBLE_POP_DURATION
 	%BubbleAnimationPlayer.play("pop")
 	
 func animation_idle() -> void:
