@@ -6,7 +6,6 @@ signal Placed
 
 
 @export_enum("I", "O", "T", "J", "L", "S", "Z") var letter: String = "T"
-@export var hold_move_period: float = 0.5
 
 
 const PIXELS_PER_UNIT = 32
@@ -22,19 +21,21 @@ const TETROMINO_COLORS = {
 }
 
 const TETROMINO_MAP = {
-	"I": [Vector2(-1, 0), Vector2(0, 0), Vector2(1, 0), Vector2(2, 0)],
-	"O": [Vector2(0, 0), Vector2(0, -1), Vector2(1, -1), Vector2(1, 0)],
-	"T": [Vector2(-1, 0), Vector2(0, 0), Vector2(1, 0), Vector2(0, 1)],
-	"J": [Vector2(-1, 0), Vector2(0, 0), Vector2(1, 0), Vector2(1, 1)],
-	"L": [Vector2(-1, 0), Vector2(0, 0), Vector2(1, 0), Vector2(-1, 1)],
-	"Z": [Vector2(0, 0), Vector2(1, 0), Vector2(0, -1), Vector2(-1, -1)],
-	"S": [Vector2(0, 0), Vector2(-1, 0), Vector2(0, -1), Vector2(1, -1)],
+	"I": [Vector2.LEFT, Vector2.ZERO, Vector2.RIGHT, Vector2(2, 0)],
+	"O": [Vector2.ZERO, Vector2.UP, Vector2(1, -1), Vector2.RIGHT],
+	"T": [Vector2.LEFT, Vector2.ZERO, Vector2.RIGHT,Vector2.DOWN],
+	"J": [Vector2.LEFT, Vector2.ZERO, Vector2.RIGHT, Vector2(-1, -1)],
+	"L": [Vector2.LEFT, Vector2.ZERO, Vector2.RIGHT, Vector2(1, -1)],
+	"Z": [Vector2.ZERO, Vector2.RIGHT, Vector2.UP, Vector2(-1, -1)],
+	"S": [Vector2.ZERO, Vector2.LEFT, Vector2.UP, Vector2(1, -1)],
 }
 
 const BUBBLE := preload("res://scenes/game/tetromino/bubble.tscn")
 
 var _current_rotation: int = 0
 
+const _MOVE_COOLDOWN: float = 0.07
+var _time_till_move: float = 0.0
 
 func _ready() -> void:
 	assert(letter in TETROMINO_MAP and letter in TETROMINO_COLORS)
@@ -64,24 +65,26 @@ func _ready() -> void:
 		bubble270.visible = false
 		%Degree270.add_child(bubble270)
 		
-		
-func try_move(vec: Vector2, ceiling_stick: bool = false) -> bool:
-	if is_position_blocked(vec):
-		return false
-	if ceiling_stick && !is_position_blocked(vec + Vector2(0, -1)):
+
+func _process(delta: float) -> void:
+	_time_till_move -= delta
+	%FiniteStateMachine.process(delta)
+
+
+func try_move(vec: Vector2, force: bool = false) -> bool:
+	if (_time_till_move > 0 && not force) || is_position_blocked(vec):
 		return false
 	position += vec * PIXELS_PER_UNIT
+	_time_till_move = _MOVE_COOLDOWN
 	return true
 	
 
 func process_rotate(degrees: int) -> void:
-	var enable_ceiling_stick := is_up_blocked()
-	
 	var previous_bubbles = get_bubbles()
 	_current_rotation = (_current_rotation + degrees) % 360
 	var current_bubbles = get_bubbles()
 	
-	if !_wall_kick(enable_ceiling_stick):
+	if not wall_kick():
 		_current_rotation = (_current_rotation + 360 - degrees) % 360
 		return
 	
@@ -94,45 +97,45 @@ func process_rotate(degrees: int) -> void:
 	
 
 func _rotate90(pos: Vector2) -> Vector2:
-	var pivot := Vector2(0.5, -0.5) if letter == 'I' || letter == 'O' else Vector2(0, 0)
+	var pivot := Vector2(0.5, -0.5) if letter == 'I' || letter == 'O' else Vector2.ZERO
 	var relative_pos = pos - pivot
 	var rotated_pos = Vector2(relative_pos.y, -relative_pos.x)
 	return rotated_pos + pivot
 	
 	
-func _wall_kick(ceiling_stick: bool) -> bool:
-	const kicks := [Vector2(0, -1), Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1)]
+func wall_kick() -> bool:
+	const kicks := [Vector2.UP, Vector2.RIGHT, Vector2.LEFT, Vector2.RIGHT]
 	
-	if try_move(Vector2(0, 0), ceiling_stick):
+	if !is_position_blocked(Vector2.ZERO):
 		return true
 	
 	for kick in kicks:
-		if try_move(kick, ceiling_stick):
+		if try_move(kick):
 			return true
 	
 	for first_kick in kicks:
 		for second_kick in kicks:
 			var double_kick = first_kick + second_kick
-			if double_kick != Vector2(0, 0) && try_move(double_kick, ceiling_stick):
+			if double_kick != Vector2.ZERO && try_move(double_kick):
 				return true
 	
 	return false
 	
 	
 func is_currently_blocked() -> bool:
-	return is_position_blocked(Vector2(0, 0))
+	return is_position_blocked(Vector2.ZERO)
 	
 
 func is_left_blocked() -> bool:
-	return is_position_blocked(Vector2(-1, 0))
+	return is_position_blocked(Vector2.LEFT)
 
 
 func is_right_blocked() -> bool:
-	return is_position_blocked(Vector2(1, 0))
+	return is_position_blocked(Vector2.RIGHT)
 	
 	
 func is_up_blocked() -> bool:
-	return is_position_blocked(Vector2(0, -1))
+	return is_position_blocked(Vector2.UP)
 	
 
 func is_position_blocked(pos: Vector2) -> bool:
@@ -142,21 +145,21 @@ func is_position_blocked(pos: Vector2) -> bool:
 	return false
 
 
-func get_bubbles(remove: bool = false) -> Array[Bubble]:
+func get_bubbles() -> Array[Bubble]:
 	var bubbles: Array[Bubble] = []
 	var parent = get_node('Bubbles/Degree%d' % [_current_rotation])
 	for child in parent.get_children():
 		if child is Bubble:
 			bubbles.append(child)
-			if remove:
-				parent.remove_child(child)
 	return bubbles
 	
 
 func handle_placed() -> void:
-	var bubbles = get_bubbles(true)
+	var bubbles = get_bubbles()
 	for bubble in bubbles:
+		bubble.get_parent().remove_child(bubble)
 		bubble.on_place()
 		bubble.animation_place(%GameClock.wait_time)
 	Placed.emit(bubbles, position)
+	queue_free()
 	

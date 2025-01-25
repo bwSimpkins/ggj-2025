@@ -23,8 +23,8 @@ func exit():
 	ticks_since_last_rotation = 1
 	
 	
-func process(delta: float, game_clock: Timer):
-	super.process(delta, game_clock)
+func process(delta: float):
+	super.process(delta)
 	
 	var is_rotated = Input.is_action_just_pressed("rotate_left") \
 		|| Input.is_action_just_pressed("rotate_right") \
