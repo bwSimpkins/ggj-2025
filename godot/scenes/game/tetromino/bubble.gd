@@ -1,6 +1,8 @@
 extends Node2D
 class_name Bubble
 
+const DEFAULT_TICK = .5
+
 
 func is_position_blocked(pos: Vector2) -> bool:
 	var area = get_node("DetectionRows/Row[%d]/Area[%d]" % [pos.y, pos.x])
@@ -17,3 +19,19 @@ func on_place() -> void:
 func distance_to_slam() -> float:
 	assert(%SlamCast.is_colliding())
 	return global_position.distance_to(%SlamCast.get_collision_point())
+	
+func animation_place(game_tick_length:float) -> void:
+	%BubbleAnimationPlayer.speed_scale = 2 * (DEFAULT_TICK/game_tick_length)
+	%BubbleAnimationPlayer.play("Place")
+	await %BubbleAnimationPlayer.animation_finished
+	%BubbleAnimationPlayer.speed_scale = .1
+	%BubbleAnimationPlayer.queue("idle")
+
+func animation_idle() -> void:
+	%BubbleAnimationPlayer.speed_scale = .1
+	%BubbleAnimationPlayer.queue("idle")
+	
+func animation_coyote_input(game_tick_length:float) -> void:
+	if $BubbleAnimationPlayer.current_animation != "coyote": 
+		%BubbleAnimationPlayer.speed_scale = 4 * (DEFAULT_TICK/game_tick_length)
+		%BubbleAnimationPlayer.play("coyote")
