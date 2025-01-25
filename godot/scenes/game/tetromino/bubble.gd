@@ -3,6 +3,11 @@ class_name Bubble
 
 const DEFAULT_TICK = .5
 const BUBBLE_POP_DURATION = 0
+
+
+var row 
+var column
+var score = 10
 	
 
 func pop(_ordinal: int) -> void:
