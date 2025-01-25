@@ -59,7 +59,7 @@ func _on_placed(bubbles: Array[Bubble], tetromino_position: Vector2) -> void:
 		bubble_grid[row][col] = bubble
 		changed_rows.append(row)
 	changed_rows.sort()
-	_handle_placed_bubbles(changed_rows)
+	await _handle_placed_bubbles(changed_rows)
 	_spawn_tetromino()
 	
 
@@ -81,7 +81,7 @@ func _handle_placed_bubbles(changed_rows: Array[int]) -> void:
 			bottom_right_popped = Vector2i(row, popped_col)
 			if top_left_popped == DEFAULT:
 				top_left_popped = bottom_right_popped
-	_handle_popped_bubbles(popped_bubbles, top_left_popped, bottom_right_popped)
+	await _handle_popped_bubbles(popped_bubbles, top_left_popped, bottom_right_popped)
 
 
 func _get_consecutive(sorted_arr: Array[int], _min: int) -> Array[int]:
@@ -107,16 +107,19 @@ func _handle_popped_bubbles(bubbles: Array[Bubble], top_left: Vector2i, bot_righ
 	var ordinal: int = 0
 	for bubble in bubbles:
 		bubble.pop(ordinal)
-		remove_child(bubble)
 		ordinal += 1
-		
+	
 	PoppedBubbles.emit(bubbles)
+	
+	await get_tree().create_timer(ordinal * .03).timeout #fix
+	
 	
 	var shift = bot_right.x - top_left.x + 1
 	var start_row = bot_right.x + 1
 	
 	var start_col = top_left.y
-	var end_col = bot_right.y
+	var end_col = bot_right.y 
+	var finished_falling: Signal=Signal()
 	for row in range(start_row,  %Grid.height):
 		if !bubble_grid.has(row):
 			continue
@@ -125,6 +128,7 @@ func _handle_popped_bubbles(bubbles: Array[Bubble], top_left: Vector2i, bot_righ
 			if potential_bubble != null:
 				var new_pos = potential_bubble.position
 				new_pos.y -= shift * PIXELS_TO_UNITS
-				potential_bubble.change_position_after_pop(ordinal, new_pos)
+				finished_falling = potential_bubble.change_position_after_pop(ordinal, new_pos)
 			bubble_grid[row - shift][col] = potential_bubble
 			bubble_grid[row][col] = null
+	await finished_falling
