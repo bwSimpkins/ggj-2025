@@ -4,6 +4,8 @@ extends Node2D
 @onready var pause_overlay = %PauseOverlay
 
 func _ready() -> void:
+	%IntroMusic.play()
+	%IntroMusic.connect("finished", _on_intro_finished)
 	fade_overlay.visible = true
 	
 	if SaveGame.has_save():
@@ -20,3 +22,6 @@ func _input(event) -> void:
 		
 func _save_game() -> void:
 	SaveGame.save_game(get_tree())
+
+func _on_intro_finished():
+	%LoopMusic.play()
