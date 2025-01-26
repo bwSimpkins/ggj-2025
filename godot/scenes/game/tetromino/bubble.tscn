@@ -1,7 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://1c257f21k3oc"]
+[gd_scene load_steps=22 format=3 uid="uid://1c257f21k3oc"]
 
 [ext_resource type="Script" path="res://scenes/game/tetromino/bubble.gd" id="1_bpdb4"]
-[ext_resource type="Texture2D" uid="uid://c82x21cbe6d58" path="res://scenes/game/tetromino/BubbleSpriteSheet.png" id="2_o40ts"]
+[ext_resource type="Texture2D" uid="uid://nxru6cho71n1" path="res://scenes/game/tetromino/BubbleandPowersSpriteSheet.png" id="2_wn43a"]
 [ext_resource type="Texture2D" uid="uid://jxle3qj8bp6g" path="res://scenes/game/powerup/2x bubble.png" id="3_ptarw"]
 [ext_resource type="AudioStream" uid="uid://c3ya1wk0fagd5" path="res://soundeffects/bubblepop_0.wav" id="3_vn22k"]
 [ext_resource type="AudioStream" uid="uid://ouyj63abl7nv" path="res://soundeffects/bubblepop_1.wav" id="3_x47o3"]
@@ -197,13 +197,69 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_jbxjx"]
+resource_name = "popMult"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bubble:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.266667, 0.533333, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [12, 13, 15, 16]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Bubble:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.666667, 0.833333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_06yuc"]
+resource_name = "popFlat"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Bubble:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.266667, 0.533333, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [7, 8, 9, 10]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Bubble:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.666667, 0.833333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xjgxk"]
 _data = {
 "Place": SubResource("Animation_ombim"),
 "RESET": SubResource("Animation_h2r8m"),
 "coyote": SubResource("Animation_e3y76"),
 "idle": SubResource("Animation_4brws"),
-"pop": SubResource("Animation_4ovix")
+"pop": SubResource("Animation_4ovix"),
+"popFlat": SubResource("Animation_06yuc"),
+"popMult": SubResource("Animation_jbxjx")
 }
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_nbc5r"]
@@ -225,9 +281,9 @@ script = ExtResource("1_bpdb4")
 unique_name_in_owner = true
 texture_filter = 1
 scale = Vector2(1.24787, 1.21768)
-texture = ExtResource("2_o40ts")
-hframes = 2
-vframes = 3
+texture = ExtResource("2_wn43a")
+hframes = 4
+vframes = 5
 
 [node name="BubbleAnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
