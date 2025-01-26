@@ -21,7 +21,7 @@ func _on_play_area_popped_bubbles(bubbles: Array[Bubble]) -> void:
 		await bubble.BubblePopped
 		if bubble.get_powerup() != null:
 			if bubble.get_powerup().type == "mult":
-				multiplier += bubble.get_powerup().value
+				multiplier *= bubble.get_powerup().value
 			else:
 				bubble.score += bubble.get_powerup().value
 		cleared_score += bubble.score
@@ -31,18 +31,17 @@ func _on_play_area_popped_bubbles(bubbles: Array[Bubble]) -> void:
 	if bubbles.size() > 10:
 		multiplier += (bubbles.size() - 10) + 1
 	cleared_score *= multiplier
-	print(multiplier)
 	
 	# wait to let user see multiplier
 	update_score_label(total_score, multiplier, false)
-	await get_tree().create_timer(.3).timeout
+	await get_tree().create_timer(.5).timeout
+	update_score_label(total_score, cleared_score, true) #show how much will be added to total score
 	
 	# Add cleared score to the total score
 	total_score += cleared_score
 	
 	# Update score
-	update_score_label(total_score, cleared_score, true) #show total cleared score
-	await get_tree().create_timer(.5).timeout
+	await get_tree().create_timer(2).timeout
 	update_score_label(total_score, 0, false)
 
 # Updates the HUD label with the new total score
