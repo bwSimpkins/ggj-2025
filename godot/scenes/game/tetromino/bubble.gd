@@ -25,10 +25,7 @@ func change_position_after_pop(pos: Vector2) -> Signal:
 		.set_ease(Tween.EASE_IN_OUT)
 	animation_place(0.5) # todo fix
 	return tween.finished
-	
-func distance_to_slam() -> float:
-	assert(%SlamCast.is_colliding())
-	return global_position.distance_to(%SlamCast.get_collision_point())
+
 	
 func animation_place(game_tick_length:float) -> void:
 	%BubbleAnimationPlayer.speed_scale = 2 * (DEFAULT_TICK/game_tick_length)

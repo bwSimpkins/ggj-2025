@@ -4,7 +4,6 @@ class_name PlayArea
 
 const CONSECUTIVE_BUBBLE_POP = 10.0
 
-
 signal PoppedBubbles
 
 
@@ -72,7 +71,6 @@ func _on_placed(bubbles: Array[Bubble], tetromino_position: Vector2) -> void:
 		changed_rows[row] = true
 	await _handle_placed_bubbles(changed_rows.keys())
 	_spawn_tetromino()
-	#print(total_score)
 	
 
 func _handle_placed_bubbles(changed_rows: Array) -> void:
