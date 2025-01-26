@@ -1,5 +1,6 @@
 extends Node2D
 
+
 @export var game_scene:PackedScene
 @export var settings_scene:PackedScene
 
@@ -32,6 +33,8 @@ func _ready() -> void:
 	for bubble in %Bubbles.get_children():
 		if bubble is Bubble:
 			bubble.animation_idle()
+	
+	%MenuMusic.play()
 
 func _on_settings_button_pressed() -> void:
 	new_game = false
