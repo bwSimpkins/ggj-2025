@@ -10,6 +10,10 @@ func _ready() -> void:
 	if parent_is_bubble: 
 		%FlatSprite.visible = false
 		%MultSprite.visible = false
+		if type == "mult":
+			value = 2
+		else:
+			value = 10
 	else:
 		if type == "mult":
 			%FlatSprite.visible = false
