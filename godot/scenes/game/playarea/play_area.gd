@@ -3,7 +3,6 @@ class_name PlayArea
 
 @export var consecutive_bubbles_pop = 10
 
-
 signal PoppedBubbles
 
 
@@ -16,8 +15,6 @@ const NUM_ROWS = 24
 # Global Variables
 var bubble_grid: Dictionary = {}
 var spawn_pos: Vector2i
-var total_score = 0
-var index = -1
 
 
 func is_position_blocked(pos: Vector2) -> bool:
@@ -68,7 +65,6 @@ func _on_placed(bubbles: Array[Bubble], tetromino_position: Vector2) -> void:
 	changed_rows.sort()
 	await _handle_placed_bubbles(changed_rows)
 	_spawn_tetromino()
-	#print(total_score)
 	
 
 func _handle_placed_bubbles(changed_rows: Array[int]) -> void:
