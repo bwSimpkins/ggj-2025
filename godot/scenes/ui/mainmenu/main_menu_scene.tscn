@@ -1,15 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://dv2y18ye8j7o0"]
+[gd_scene load_steps=10 format=3 uid="uid://dv2y18ye8j7o0"]
 
 [ext_resource type="Script" path="res://scenes/ui/mainmenu/main_menu_scene.gd" id="1_1foie"]
 [ext_resource type="PackedScene" uid="uid://cik30de5gaaah" path="res://scenes/game/ingame_scene.tscn" id="2_nl5i6"]
 [ext_resource type="PackedScene" uid="uid://g4qhvbvdm62w" path="res://scenes/ui/settings/game_settings_scene.tscn" id="3_dgs4d"]
 [ext_resource type="PackedScene" uid="uid://bkk87o2ooo6at" path="res://ui/overlays/fade_overlay.tscn" id="3_kf1us"]
-[ext_resource type="PackedScene" uid="uid://b4blrdjthcxnn" path="res://ui/components/game_logo.tscn" id="4_fnufg"]
+[ext_resource type="Texture2D" uid="uid://ua6a087e5dok" path="res://visualassets/Transparentstreetstyle_SLORTIZ.png" id="4_rwi3m"]
 [ext_resource type="AudioStream" uid="uid://cyru18k5byy8p" path="res://music/ProjectZodiac-menumusic.wav" id="6_pma5s"]
+[ext_resource type="PackedScene" uid="uid://1c257f21k3oc" path="res://scenes/game/tetromino/bubble.tscn" id="7_g0lrd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2ikbh"]
 font_size = 8
 font_color = Color(1, 1, 1, 0.486275)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cuuo7"]
+load_path = "res://.godot/imported/Tetris background.png-a04e28a5d691cb9e399f9a559f936d3a.ctex"
 
 [node name="MainMenuScene" type="Node2D"]
 script = ExtResource("1_1foie")
@@ -22,6 +26,10 @@ settings_scene = ExtResource("3_dgs4d")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -168.0
+offset_top = 43.0
+offset_right = -168.0
+offset_bottom = 43.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -29,34 +37,38 @@ grow_vertical = 2
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="GameLogo" parent="UI/CenterContainer/VBoxContainer" instance=ExtResource("4_fnufg")]
-layout_mode = 2
-
 [node name="ContinueButton" type="Button" parent="UI/CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"FlatButton"
 text = "continue"
+alignment = 0
 
 [node name="NewGameButton" type="Button" parent="UI/CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "new_game"
+theme_type_variation = &"FlatButton"
+text = "new game"
+alignment = 0
 
 [node name="SettingsButton" type="Button" parent="UI/CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_type_variation = &"FlatButton"
 text = "settings"
+alignment = 0
 
 [node name="ExitButton" type="Button" parent="UI/CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "leave_game"
+text = "quit"
+alignment = 0
 
 [node name="Credits" type="MarginContainer" parent="UI/CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -65,9 +77,16 @@ theme_override_constants/margin_top = 10
 
 [node name="Label" type="Label" parent="UI/CenterContainer/VBoxContainer/Credits"]
 layout_mode = 2
-text = "credits"
+text = "GGJ 2025 - Austin Bennet, Mark Finnicum, 
+Reese Hatheway, Chris Raun, Boyer Simpkins
+"
 label_settings = SubResource("LabelSettings_2ikbh")
 horizontal_alignment = 1
+
+[node name="TransparentstreetstyleSlortiz" type="Sprite2D" parent="UI/CenterContainer"]
+modulate = Color(0.808259, 0.878709, 0.714278, 1)
+position = Vector2(282, 12)
+texture = ExtResource("4_rwi3m")
 
 [node name="FadeOverlay" parent="UI" instance=ExtResource("3_kf1us")]
 unique_name_in_owner = true
@@ -77,3 +96,89 @@ visible = false
 stream = ExtResource("6_pma5s")
 autoplay = true
 bus = &"Music"
+
+[node name="TetrisBackground" type="Sprite2D" parent="."]
+self_modulate = Color(0.226707, 0.226707, 0.226707, 1)
+position = Vector2(280, 151)
+scale = Vector2(0.241016, 0.250694)
+texture = SubResource("CompressedTexture2D_cuuo7")
+
+[node name="Bubbles" type="Node2D" parent="."]
+unique_name_in_owner = true
+modulate = Color(0.63889, 0.651837, 0.783692, 1)
+position = Vector2(287, 164)
+scale = Vector2(0.241016, 0.250694)
+
+[node name="Bubble" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+modulate = Color(0.812408, 0.389087, 0.648568, 1)
+self_modulate = Color(0.705905, 0.34944, 0.466211, 1)
+position = Vector2(-688.751, -438.782)
+scale = Vector2(-23.9598, -7.81575)
+
+[node name="Bubble2" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+modulate = Color(0.957924, 0.622709, 0.592705, 1)
+position = Vector2(219.902, -163.546)
+scale = Vector2(6.14069, 5.90363)
+
+[node name="Bubble14" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+modulate = Color(0.957924, 0.622709, 0.592705, 1)
+position = Vector2(58.0872, -335.07)
+scale = Vector2(1.82562, 1.75515)
+
+[node name="Bubble3" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+modulate = Color(0.505338, 0.793694, 0.465881, 1)
+position = Vector2(-45.6401, -67.8118)
+scale = Vector2(4.64699, 4.4676)
+
+[node name="Bubble4" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+modulate = Color(1.20327e-06, 0.684092, 0.504934, 1)
+position = Vector2(485.445, -370.97)
+scale = Vector2(4.1491, 3.98893)
+
+[node name="Bubble15" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+modulate = Color(1.20327e-06, 0.684092, 0.504934, 1)
+position = Vector2(-91.2803, -386.926)
+scale = Vector2(-2.99212, -2.8309)
+
+[node name="Bubble5" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+position = Vector2(439.805, -23.9336)
+scale = Vector2(4.1491, 3.98893)
+
+[node name="Bubble6" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+modulate = Color(0.778764, 0.429613, 0.421699, 1)
+position = Vector2(651.409, -227.369)
+scale = Vector2(6.4726, 6.22273)
+
+[node name="Bubble7" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+modulate = Color(6.16074e-06, 0.65924, 0.910641, 1)
+position = Vector2(103.728, 43.8782)
+scale = Vector2(4.1491, 3.98893)
+
+[node name="Bubble8" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+position = Vector2(-132.771, -283.214)
+scale = Vector2(2.48946, 2.39336)
+
+[node name="Bubble9" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+modulate = Color(0.939751, 0.656136, 0.251096, 1)
+self_modulate = Color(0.753854, 0.703283, 0.744373, 1)
+position = Vector2(257.244, -434.793)
+scale = Vector2(4.1491, 3.98893)
+
+[node name="Bubble10" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+modulate = Color(0.636866, 0.732697, 0.969439, 1)
+position = Vector2(398.314, -227.369)
+scale = Vector2(4.96964, 4.77779)
+
+[node name="Bubble11" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+position = Vector2(-199.157, 135.623)
+scale = Vector2(5.55603, 5.34154)
+
+[node name="Bubble12" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+modulate = Color(0.908067, 0.892174, 0.381922, 1)
+position = Vector2(688.751, 15.9557)
+scale = Vector2(9.56055, 9.39128)
+
+[node name="Bubble13" parent="Bubbles" instance=ExtResource("7_g0lrd")]
+modulate = Color(0.940842, 0.364262, 0.395586, 1)
+position = Vector2(373.419, 271.247)
+scale = Vector2(5.55603, 5.34154)
