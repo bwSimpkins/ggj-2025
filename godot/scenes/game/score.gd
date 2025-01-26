@@ -4,7 +4,7 @@ var total_score = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	update_score_label(total_score) #Initialize label at start of main game screen
+	update_score_label(total_score, 0, false) #Initialize label at start of main game screen
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -17,7 +17,7 @@ func _on_play_area_popped_bubbles(bubbles: Array[Bubble]) -> void:
 	var cleared_score = 0
 	for bubble in bubbles:
 		cleared_score += bubble.score
-		update_score_label(total_score + cleared_score)
+		update_score_label(total_score + cleared_score, bubble.score, true)
 		
 		# Wait so that we get an additive score tally.
 		await get_tree().create_timer(.05).timeout
@@ -33,14 +33,19 @@ func _on_play_area_popped_bubbles(bubbles: Array[Bubble]) -> void:
 	
 	# Add cleared score to the total score
 	total_score += cleared_score
-	update_score_label(total_score) #Update score label after score is calculated
-	
+	update_score_label(total_score, multiplier, false) #Update score label after score is calculated
+	await get_tree().create_timer(.3).timeout
+	update_score_label(total_score, 0, false)
 
 # Updates the HUD label with the new total score
-func update_score_label(score: int):
+func update_score_label(score: int, increase: float, is_addition: bool):
 	var score_label =  $HUD/Label
-	score_label.text = str("Score:\n") + str(score)
-	
+	if increase == 0:
+		score_label.text = str("Score:\n") + str(score)
+	elif is_addition:
+		score_label.text = str("Score:\n") + str(score) + str(" + ") + str(increase)
+	elif !is_addition:
+		score_label.text = str("Score:\n") + str(score) + str(" x ") + str(increase)
 
 # Adds commas to the total score integer to make the score more readable.
 func thousands_sep(number: int, prefix=''):
