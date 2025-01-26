@@ -1,13 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://g4qhvbvdm62w"]
+[gd_scene load_steps=6 format=3 uid="uid://g4qhvbvdm62w"]
 
 [ext_resource type="Script" path="res://scenes/ui/settings/game_settings_scene.gd" id="1_3764u"]
 [ext_resource type="PackedScene" uid="uid://bkk87o2ooo6at" path="res://ui/overlays/fade_overlay.tscn" id="1_w6tmj"]
 [ext_resource type="PackedScene" uid="uid://nbaodrlopo7y" path="res://ui/components/game_settings.tscn" id="2_qsqie"]
 [ext_resource type="Theme" uid="uid://d22mpqutkotsu" path="res://ui/theme.tres" id="3_unbh4"]
 [ext_resource type="AudioStream" uid="uid://cyru18k5byy8p" path="res://music/ProjectZodiac-menumusic.wav" id="5_vbewp"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cuuo7"]
-load_path = "res://.godot/imported/Tetris background.png-a04e28a5d691cb9e399f9a559f936d3a.ctex"
 
 [node name="GameSettingsScene" type="Node2D"]
 script = ExtResource("1_3764u")
@@ -47,10 +44,3 @@ visible = false
 stream = ExtResource("5_vbewp")
 autoplay = true
 bus = &"Music"
-
-[node name="TetrisBackground" type="Sprite2D" parent="."]
-self_modulate = Color(0.227451, 0.227451, 0.227451, 1)
-show_behind_parent = true
-position = Vector2(277, 167.5)
-scale = Vector2(0.271875, 0.272917)
-texture = SubResource("CompressedTexture2D_cuuo7")
