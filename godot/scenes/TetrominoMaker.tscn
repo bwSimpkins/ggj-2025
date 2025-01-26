@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b3oo7ut3uibsh"]
+[gd_scene load_steps=5 format=4 uid="uid://b3oo7ut3uibsh"]
 
 [ext_resource type="Script" path="res://scenes/tetromino_maker.gd" id="1_f1qk7"]
 [ext_resource type="Texture2D" uid="uid://drps3ao2alpaj" path="res://scenes/game/playarea/grid_tile_map.png" id="2_b1w6c"]
@@ -19,5 +19,5 @@ script = ExtResource("1_f1qk7")
 [node name="Grid" type="TileMapLayer" parent="."]
 unique_name_in_owner = true
 position = Vector2(-16, -16)
-tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAP//AAAAAAAAAAABAP//AAAAAAAAAAACAP7/AAAAAAAAAAADAP7/AAAAAAAAAAADAP3/AAAAAAAAAAACAP3/AAAAAAAAAAD///3/AAAAAAAAAAD///7/AAAAAAAAAAD+//7/AAAAAAAAAAD+//3/AAAAAAAAAAD//wEAAAAAAAAAAAD+/wEAAAAAAAAAAAD+/wIAAAAAAAAAAAD//wIAAAAAAAAAAAACAAEAAAAAAAAAAAACAAIAAAAAAAAAAAADAAIAAAAAAAAAAAADAAEAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_1b54r")
