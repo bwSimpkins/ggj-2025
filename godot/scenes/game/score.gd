@@ -21,4 +21,4 @@ func _on_play_area_popped_bubbles(bubbles: Array[Bubble]) -> void:
 
 func update_score_label():
 	var score_label =  $HUD/Label
-	score_label.text = "Score: " + str(total_score)
+	score_label.text = str("Score:\n") + str(total_score)
