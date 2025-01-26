@@ -14,6 +14,9 @@
 [ext_resource type="AudioStream" uid="uid://b00shkl8lx466" path="res://soundeffects/bubblepop_6.wav" id="12_o66o3"]
 [ext_resource type="AudioStream" uid="uid://royr2isrbhjs" path="res://soundeffects/bubblepop_7.wav" id="13_71ku8"]
 [ext_resource type="AudioStream" uid="uid://b1ya2jhov0bhm" path="res://soundeffects/bubblepop_8.wav" id="14_qu3nv"]
+[ext_resource type="Script" path="res://scenes/game/score.gd" id="15_wud1j"]
+[ext_resource type="Script" path="res://scenes/game/hud.gd" id="16_vr01u"]
+[ext_resource type="FontFile" uid="uid://d3gm5h1sk3aow" path="res://fonts/tetris.ttf" id="17_y720u"]
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_fbvm3"]
 shuffle = true

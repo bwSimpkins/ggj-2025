@@ -1,20 +1,25 @@
 extends Node2D
 class_name PlayArea
 
-@export var consecutive_bubbles_pop = 10
 
+const CONSECUTIVE_BUBBLE_POP = 10.0
 
 signal PoppedBubbles
 
 
+# Constanst
 const TETROMINO = preload("res://scenes/game/tetromino/tetromino.tscn")
 const PIXELS_TO_UNITS = 32
+const NUM_ROWS = 24
 
 
-# Dictionary[int, Dictionary[int, Bubble|null]]
+# Global Variables
 var bubble_grid: Dictionary = {}
-
 var spawn_pos: Vector2i
+var total_score = 0
+var index = -1
+var tetronimo_max = 6
+
 
 
 func is_position_blocked(pos: Vector2) -> bool:
@@ -29,13 +34,12 @@ func _to_vector2i(vec: Vector2) -> Vector2i:
 
 
 func _ready() -> void:
-	consecutive_bubbles_pop = min(%Grid.width, consecutive_bubbles_pop)
 	for row in %Grid.height:
 		bubble_grid[row] = {}
 		for col in %Grid.width:
 			bubble_grid[row][col] = null
 			
-	spawn_pos = Vector2i(int(%Grid.width / 2), %Grid.height - 1)
+	spawn_pos = Vector2i(int(%Grid.width / 2), %Grid.height - 5) # todo fix
 			
 	_spawn_tetromino()
 	
@@ -43,31 +47,37 @@ func _ready() -> void:
 func _spawn_tetromino() -> void:
 	var tetromino = TETROMINO.instantiate()
 	tetromino.position = spawn_pos * PIXELS_TO_UNITS
-	tetromino.letter = ["I", "O", "T", "J", "L", "S", "Z"].pick_random()
+	var tetromino_selected = int(randf_range(0,tetronimo_max+1))
+	tetromino.letter = Tetromino.TETROMINO_MAP.keys()[tetromino_selected] #picks random letter from tetromino maps
+	if tetronimo_max < Tetromino.TETROMINO_MAP.size():
+		tetronimo_max += .25
 	tetromino.Placed.connect(_on_placed)
 	add_child(tetromino)
 	
 	
 func _on_placed(bubbles: Array[Bubble], tetromino_position: Vector2) -> void:
-	var changed_rows: Array[int] = []
+	var num_bubbles = 0
+	var changed_rows: Dictionary = {}
 	for bubble in bubbles:
+		num_bubbles += 1
 		bubble.position += tetromino_position
 		add_child(bubble)
 		var row := int(bubble.position.y / PIXELS_TO_UNITS)
 		var col := int(bubble.position.x / PIXELS_TO_UNITS)
+		bubble.row = row
+		bubble.column = col
 		assert(bubble_grid[row][col] == null)
 		bubble_grid[row][col] = bubble
-		changed_rows.append(row)
-	changed_rows.sort()
-	_handle_placed_bubbles(changed_rows)
+		changed_rows[row] = true
+	await _handle_placed_bubbles(changed_rows.keys())
 	_spawn_tetromino()
 	
 
-func _handle_placed_bubbles(changed_rows: Array[int]) -> void:
-	var popped_bubbles: Array[Bubble] = []
-	const DEFAULT = Vector2i(-1, -1)
-	var top_left_popped: Vector2i = Vector2i(-1, -1)
-	var bottom_right_popped: Vector2i = Vector2i(-1, -1)
+func _handle_placed_bubbles(changed_rows: Array) -> void:
+	var consecutive_bubbles_pop = min(%Grid.width, CONSECUTIVE_BUBBLE_POP)
+	
+	changed_rows.sort()
+	var popped_bubbles: Array[Vector2i] = []
 	for row in changed_rows:
 		var cols = bubble_grid[row].keys()
 		cols.sort()
@@ -77,11 +87,8 @@ func _handle_placed_bubbles(changed_rows: Array[int]) -> void:
 			if bubble_grid[row][icol] != null:
 				cols_with_bubbles.append(icol)
 		for popped_col in _get_consecutive(cols_with_bubbles, consecutive_bubbles_pop):
-			popped_bubbles.append(bubble_grid[row][popped_col])
-			bottom_right_popped = Vector2i(row, popped_col)
-			if top_left_popped == DEFAULT:
-				top_left_popped = bottom_right_popped
-	_handle_popped_bubbles(popped_bubbles, top_left_popped, bottom_right_popped)
+			popped_bubbles.append(Vector2i(row, popped_col))
+	await _handle_popped_bubbles(popped_bubbles)
 
 
 func _get_consecutive(sorted_arr: Array[int], _min: int) -> Array[int]:
@@ -93,38 +100,52 @@ func _get_consecutive(sorted_arr: Array[int], _min: int) -> Array[int]:
 		elif consecutive_numbers.size() >= _min:
 			return consecutive_numbers
 		else:
-			consecutive_numbers = [sorted_arr[i]]
+			consecutive_numbers = [sorted_arr[i]] 
 			
 	const EMPTY: Array[int] = []
 	return consecutive_numbers if consecutive_numbers.size() >= _min else EMPTY
 
 	
 # note bubbles will be sorted from top left to bottom right
-func _handle_popped_bubbles(bubbles: Array[Bubble], top_left: Vector2i, bot_right: Vector2i) -> void:
-	if not bubbles:
+func _handle_popped_bubbles(bubbles_positions: Array[Vector2i]) -> void:
+	if not bubbles_positions:
 		return
-	
+		
+	var bubbles: Array[Bubble] = []
+	var bubble_shifts: Dictionary = {} 
+	for bubbles_position in bubbles_positions:
+		assert(bubble_grid[bubbles_position.x][bubbles_position.y] != null)
+		bubbles.append(bubble_grid[bubbles_position.x][bubbles_position.y])
+		bubble_grid[bubbles_position.x][bubbles_position.y] = null
+		
+		for down in range(1, %Grid.height - bubbles_position.x):
+			var below_position = bubbles_position + Vector2i(down, 0)
+			if not bubble_shifts.has(below_position):
+				bubble_shifts[below_position] = 0
+			bubble_shifts[below_position] += 1
+			
 	var ordinal: int = 0
 	for bubble in bubbles:
 		bubble.pop(ordinal)
-		remove_child(bubble)
 		ordinal += 1
-		
+	
 	PoppedBubbles.emit(bubbles)
 	
-	var shift = bot_right.x - top_left.x + 1
-	var start_row = bot_right.x + 1
+	await get_tree().create_timer(ordinal * .03).timeout #fix
 	
-	var start_col = top_left.y
-	var end_col = bot_right.y
-	for row in range(start_row,  %Grid.height):
-		if !bubble_grid.has(row):
-			continue
-		for col in range(start_col, end_col + 1):
-			var potential_bubble: Bubble = bubble_grid[row][col]
-			if potential_bubble != null:
-				var new_pos = potential_bubble.position
-				new_pos.y -= shift * PIXELS_TO_UNITS
-				potential_bubble.change_position_after_pop(ordinal, new_pos)
-			bubble_grid[row - shift][col] = potential_bubble
+	var finished_falling = false
+	for row in range(0,  %Grid.height):
+		for col in range(0,  %Grid.width):
+			var b: Bubble = bubble_grid[row][col]
+			var key = Vector2i(row, col)
+			if b == null || !bubble_shifts.has(key):
+				continue
+			var shift = bubble_shifts[key]
+			var new_pos = b.position
+			new_pos.y -= shift * PIXELS_TO_UNITS
+			finished_falling = b.change_position_after_pop(new_pos)
+			bubble_grid[row - shift][col] = b
 			bubble_grid[row][col] = null
+			
+	if finished_falling:
+		await finished_falling
