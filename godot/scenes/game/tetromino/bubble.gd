@@ -12,7 +12,7 @@ const NEXT_BUBBLE_WAIT = 0.05
 
 var row 
 var column
-var score = 10
+var score = 1
 
 func get_powerup() -> PowerUp:
 	return $PowerUp

@@ -25,17 +25,22 @@ func _on_play_area_popped_bubbles(bubbles: Array[Bubble]) -> void:
 			else:
 				bubble.score += bubble.get_powerup().value
 		cleared_score += bubble.score
-		update_score_label(total_score + cleared_score, bubble.score, true)
+		update_score_label(total_score + cleared_score, cleared_score, true)
 		
 	# Calculates the multiplier for bubbles over the mininum needed to pop
 	if bubbles.size() > 10:
-		multiplier = (bubbles.size() - 10) + 0.5
+		multiplier += (bubbles.size() - 10) + 1
 	cleared_score *= multiplier
+	print(multiplier)
+	
+	# wait to let user see multiplier
+	update_score_label(total_score, multiplier, false)
+	await get_tree().create_timer(.3).timeout
 	
 	# Add cleared score to the total score
 	total_score += cleared_score
-	update_score_label(total_score, multiplier, false) #Update score label after score is calculated
-	await get_tree().create_timer(.3).timeout
+	update_score_label(total_score, cleared_score, true) #show total cleared score
+	await get_tree().create_timer(.5).timeout
 	update_score_label(total_score, 0, false)
 
 # Updates the HUD label with the new total score
