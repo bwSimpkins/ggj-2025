@@ -25,34 +25,31 @@ func _on_play_area_popped_bubbles(bubbles: Array[Bubble]) -> void:
 			else:
 				bubble.score += bubble.get_powerup().value
 		cleared_score += bubble.score
-		update_score_label(total_score + cleared_score, cleared_score, true)
+		update_score_label(total_score, cleared_score, multiplier)
 		
-	# Calculates the multiplier for bubbles over the mininum needed to pop
-	if bubbles.size() > 10:
-		multiplier += (bubbles.size() - 10) + 1
-	cleared_score *= multiplier
+	# Hold total addition for a second
+	await get_tree().create_timer(1).timeout
+	update_score_label(total_score, cleared_score, multiplier)
 	
-	# wait to let user see multiplier
-	update_score_label(total_score, multiplier, false)
-	await get_tree().create_timer(.5).timeout
-	update_score_label(total_score, cleared_score, true) #show how much will be added to total score
+	await get_tree().create_timer(1).timeout
+	update_score_label(total_score, cleared_score, multiplier) #show how much will be added to total score
 	
 	# Add cleared score to the total score
+	cleared_score *= multiplier
 	total_score += cleared_score
 	
 	# Update score
 	await get_tree().create_timer(2).timeout
-	update_score_label(total_score, 0, false)
+	update_score_label(total_score, 0, 0)
 
 # Updates the HUD label with the new total score
-func update_score_label(score: int, increase: float, is_addition: bool):
+func update_score_label(score: int, additive: float, multiplicative: float):
 	var score_label =  $HUD/Label
-	if increase == 0:
+	if additive == 0:
 		score_label.text = str("Score:\n") + str(score)
-	elif is_addition:
-		score_label.text = str("Score:\n") + str(score) + str(" + ") + str(increase)
-	elif !is_addition:
-		score_label.text = str("Score:\n") + str(score) + str(" x ") + str(increase)
+	else:
+		score_label.text = str("Score:\n") + str(score) + str(" + ") + str(additive) + str(" x ") + str(multiplicative)
+	
 
 # Adds commas to the total score integer to make the score more readable.
 func thousands_sep(number: int, prefix=''):
