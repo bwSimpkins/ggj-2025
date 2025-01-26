@@ -18,6 +18,11 @@ func _on_play_area_popped_bubbles(bubbles: Array[Bubble]) -> void:
 	var cleared_score = 0
 	for bubble in bubbles:
 		await bubble.BubblePopped
+		if bubble.get_powerup() != null:
+			if bubble.get_powerup().type == "mult":
+				bubble.score *= bubble.get_powerup().value
+			else:
+				bubble.score += bubble.get_powerup().value
 		cleared_score += bubble.score
 		update_score_label(total_score + cleared_score, bubble.score, true)
 		
