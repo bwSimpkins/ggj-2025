@@ -16,20 +16,15 @@ func _on_play_area_popped_bubbles(bubbles: Array[Bubble]) -> void:
 	# Adds up the base amount of the bubbles popped
 	var cleared_score = 0
 	for bubble in bubbles:
+		await bubble.BubblePopped
 		cleared_score += bubble.score
 		update_score_label(total_score + cleared_score, bubble.score, true)
-		
-		# Wait so that we get an additive score tally.
-		await get_tree().create_timer(.05).timeout
 		
 	# Calculates the multiplier for bubbles over the mininum needed to pop
 	var multiplier = 1
 	if bubbles.size() > 10:
 		multiplier = (bubbles.size() - 10) + 0.5
 	cleared_score *= multiplier
-	
-	# wait before multiplier is applied
-	await get_tree().create_timer(.3).timeout
 	
 	# Add cleared score to the total score
 	total_score += cleared_score
