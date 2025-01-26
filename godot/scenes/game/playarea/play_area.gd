@@ -40,7 +40,7 @@ func _ready() -> void:
 		for col in %Grid.width:
 			bubble_grid[row][col] = null
 			
-	spawn_pos = Vector2i(int(%Grid.width / 2), %Grid.height - 5)
+	spawn_pos = Vector2i(int(%Grid.width / 2), %Grid.height - 5) # todo fix
 			
 	_spawn_tetromino()
 	
