@@ -9,7 +9,7 @@ const NEXT_BUBBLE_WAIT = 0.05
 
 var row 
 var column
-var score = 1
+var score = 10
 	
 
 func pop(ordinal: int) -> void:
