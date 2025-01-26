@@ -16,18 +16,18 @@ func _on_play_area_popped_bubbles(bubbles: Array[Bubble]) -> void:
 	# Adds up the base amount of the bubbles popped
 	%ScoreAnimations.play("score_flash")
 	var cleared_score = 0
+	var multiplier = 1
 	for bubble in bubbles:
 		await bubble.BubblePopped
 		if bubble.get_powerup() != null:
 			if bubble.get_powerup().type == "mult":
-				bubble.score *= bubble.get_powerup().value
+				multiplier += bubble.get_powerup().value
 			else:
 				bubble.score += bubble.get_powerup().value
 		cleared_score += bubble.score
 		update_score_label(total_score + cleared_score, bubble.score, true)
 		
 	# Calculates the multiplier for bubbles over the mininum needed to pop
-	var multiplier = 1
 	if bubbles.size() > 10:
 		multiplier = (bubbles.size() - 10) + 0.5
 	cleared_score *= multiplier
