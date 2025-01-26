@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cik30de5gaaah"]
+[gd_scene load_steps=20 format=3 uid="uid://cik30de5gaaah"]
 
 [ext_resource type="Script" path="res://scenes/game/ingame_scene.gd" id="1_s0oxc"]
 [ext_resource type="PackedScene" uid="uid://it8krv030uwn" path="res://scenes/game/playarea/play_area.tscn" id="4_6x0xm"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://cjh78fvm1xn6h" path="res://music/projectzodiac-smoothintro.mp3" id="5_7veen"]
 [ext_resource type="PackedScene" uid="uid://jyv4g54adkmo" path="res://ui/overlays/pause_overlay.tscn" id="5_kwkh4"]
 [ext_resource type="FontFile" uid="uid://csjn7ryho7u8v" path="res://fonts/PixelatedEleganceRegular-ovyAA.ttf" id="10_0clc1"]
+[ext_resource type="PackedScene" uid="uid://qihxk280vj5r" path="res://scenes/FlashingKeys.tscn" id="11_k73yp"]
 [ext_resource type="Script" path="res://scenes/game/score.gd" id="15_wud1j"]
 [ext_resource type="FontFile" uid="uid://d3gm5h1sk3aow" path="res://fonts/tetris.ttf" id="17_y720u"]
 [ext_resource type="Texture2D" uid="uid://dl28ilcyykosx" path="res://visualassets/Tetris Background grayscale.png" id="18_o52xn"]
@@ -192,5 +193,8 @@ unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_833s5")
 }
+
+[node name="FlashingKeys" parent="." instance=ExtResource("11_k73yp")]
+position = Vector2(484, 258)
 
 [connection signal="PoppedBubbles" from="PlayArea" to="Score" method="_on_play_area_popped_bubbles"]
