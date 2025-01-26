@@ -14,8 +14,6 @@ var row
 var column
 var score = 10
 
-
-
 func get_powerup() -> PowerUp:
 	return $PowerUp
 
@@ -37,11 +35,11 @@ func change_position_after_pop(pos: Vector2) -> Signal:
 
 func receive_powerup(powerup: PowerUp) -> void:
 	add_child(powerup)
-	%Bubble.visible = false
+	modulate = Color(1, 1, 1)
 	if powerup.type == "mult":
-		%Mult2.visible = true
+		%Bubble.frame = 11
 	else:
-		%Flat10.visible = true
+		%Bubble.frame = 6
 	
 func animation_place(game_tick_length:float) -> void:
 	%BubbleAnimationPlayer.speed_scale = 2 * (DEFAULT_TICK/game_tick_length)
@@ -52,7 +50,13 @@ func animation_place(game_tick_length:float) -> void:
 
 func animation_pop() -> void:
 	%BubbleAnimationPlayer.speed_scale = 1 / BUBBLE_POP_DURATION
-	%BubbleAnimationPlayer.play("pop")
+	if $PowerUp != null:
+		if $PowerUp.type == "mult":
+			%BubbleAnimationPlayer.play("popMult")
+		else:
+			%BubbleAnimationPlayer.play("popFlat")
+	else:
+		%BubbleAnimationPlayer.play("pop")
 	
 func animation_idle() -> void:
 	%BubbleAnimationPlayer.speed_scale = .1
