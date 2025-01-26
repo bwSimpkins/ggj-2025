@@ -64,7 +64,7 @@ func _ready() -> void:
 		for vec in Tetromino.TETROMINO_MAP[letter]:
 			max_tetromino_radius = max(max_tetromino_radius, int(abs(vec.x)))
 			
-	tetrominos_until_power_up = randi_range(min_tetrominos_per_powerup / 2, max_tetrominos_per_powerup / 2)
+	tetrominos_until_power_up = randi_range(min_tetrominos_per_powerup >> 1, max_tetrominos_per_powerup >> 1)
 	_spawn_tetromino()
 	
 	
