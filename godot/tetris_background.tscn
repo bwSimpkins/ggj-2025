@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://dfb0haxa0qyqw"]
+[gd_scene load_steps=2 format=3 uid="uid://b66neus1jsgtu"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cuuo7"]
 load_path = "res://.godot/imported/Tetris background.png-a04e28a5d691cb9e399f9a559f936d3a.ctex"
