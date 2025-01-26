@@ -10,6 +10,9 @@ func _ready() -> void:
 	%IntroMusic.play()
 	%IntroMusic.connect("finished", _on_intro_finished)
 	fade_overlay.visible = true
+	
+	%BackgroundAnimations.play("game_start")
+	%BackgroundAnimations.queue("background_idle")
 
 func _input(event) -> void:
 	if event.is_action_pressed("pause") and not pause_overlay.visible:
