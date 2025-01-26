@@ -16,8 +16,6 @@ const NUM_ROWS = 24
 # Global Variables
 var bubble_grid: Dictionary = {}
 var spawn_pos: Vector2i
-var total_score = 0
-var index = -1
 var tetronimo_max = 7
 
 
