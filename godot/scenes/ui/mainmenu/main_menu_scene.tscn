@@ -113,6 +113,8 @@ visible = false
 [node name="MenuMusic" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("8_fwsfs")
+volume_db = -3.0
+autoplay = true
 bus = &"Music"
 
 [node name="Bubbles" type="Node2D" parent="."]
