@@ -13,7 +13,11 @@ const NEXT_BUBBLE_WAIT = 0.05
 var row 
 var column
 var score = 10
-	
+
+
+
+func get_powerup() -> PowerUp:
+	return $PowerUp
 
 func pop(ordinal: int) -> void:
 	make_pop_sound()
@@ -31,6 +35,13 @@ func change_position_after_pop(pos: Vector2) -> Signal:
 	animation_place(0.5) # todo fix
 	return tween.finished
 
+func receive_powerup(powerup: PowerUp) -> void:
+	add_child(powerup)
+	%Bubble.visible = false
+	if powerup.type == "mult":
+		%Mult2.visible = true
+	else:
+		%Flat10.visible = true
 	
 func animation_place(game_tick_length:float) -> void:
 	%BubbleAnimationPlayer.speed_scale = 2 * (DEFAULT_TICK/game_tick_length)
