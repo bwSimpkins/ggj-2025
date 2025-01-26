@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cik30de5gaaah"]
+[gd_scene load_steps=20 format=3 uid="uid://cik30de5gaaah"]
 
 [ext_resource type="Script" path="res://scenes/game/ingame_scene.gd" id="1_s0oxc"]
 [ext_resource type="PackedScene" uid="uid://it8krv030uwn" path="res://scenes/game/playarea/play_area.tscn" id="4_6x0xm"]
@@ -16,6 +16,7 @@
 [ext_resource type="AudioStream" uid="uid://b1ya2jhov0bhm" path="res://soundeffects/bubblepop_8.wav" id="14_qu3nv"]
 [ext_resource type="Script" path="res://scenes/game/score.gd" id="15_wud1j"]
 [ext_resource type="Script" path="res://scenes/game/hud.gd" id="16_vr01u"]
+[ext_resource type="FontFile" uid="uid://d3gm5h1sk3aow" path="res://fonts/tetris.ttf" id="17_y720u"]
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_fbvm3"]
 shuffle = true
@@ -30,6 +31,9 @@ stream_4 = ExtResource("11_0ihtw")
 stream_5 = ExtResource("12_o66o3")
 stream_6 = ExtResource("13_71ku8")
 stream_7 = ExtResource("14_qu3nv")
+
+[sub_resource type="Theme" id="Theme_vvnv4"]
+default_font = ExtResource("17_y720u")
 
 [node name="IngameScene" type="Node2D"]
 script = ExtResource("1_s0oxc")
@@ -71,8 +75,18 @@ script = ExtResource("15_wud1j")
 [node name="HUD" type="Node2D" parent="Score"]
 script = ExtResource("16_vr01u")
 
-[node name="Label" type="Label" parent="Score/HUD"]
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="Label" type="RichTextLabel" parent="Score/HUD"]
+top_level = true
+offset_left = 473.0
+offset_top = 32.0
+offset_right = 561.0
+offset_bottom = 70.0
+theme = SubResource("Theme_vvnv4")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/normal_font = ExtResource("17_y720u")
+bbcode_enabled = true
+fit_content = true
+autowrap_mode = 2
 
 [connection signal="PoppedBubbles" from="PlayArea" to="Score" method="_on_play_area_popped_bubbles"]

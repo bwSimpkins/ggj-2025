@@ -34,7 +34,7 @@ func _on_play_area_popped_bubbles(bubbles: Array[Bubble]) -> void:
 # Updates the HUD label with the new total score
 func update_score_label():
 	var score_label =  $HUD/Label
-	score_label.text = "Score: " + thousands_sep(total_score)
+	score_label.text = str("Score:\n") + str(total_score)
 	
 
 # Adds commas to the total score integer to make the score more readable.
