@@ -9,26 +9,23 @@ const NEXT_BUBBLE_WAIT = 0.05
 
 var row 
 var column
-var score = 10
+var score = 1
 	
 
 func pop(ordinal: int) -> void:
 	await get_tree().create_timer(ordinal * NEXT_BUBBLE_WAIT).timeout 
-	animation_pop(.5) #todo fix
+	animation_pop()
 	await %BubbleAnimationPlayer.animation_finished
 	queue_free()
 	
-func change_position_after_pop(pop_count: int, pos: Vector2) -> Signal:
+func change_position_after_pop(pos: Vector2) -> Signal:
 	var tween = create_tween()
 	tween.tween_property(self, "position", pos, 0.75) \
 		.set_trans(Tween.TRANS_BACK) \
 		.set_ease(Tween.EASE_IN_OUT)
 	animation_place(0.5) # todo fix
 	return tween.finished
-	
-func distance_to_slam() -> float:
-	assert(%SlamCast.is_colliding())
-	return global_position.distance_to(%SlamCast.get_collision_point())
+
 	
 func animation_place(game_tick_length:float) -> void:
 	%BubbleAnimationPlayer.speed_scale = 2 * (DEFAULT_TICK/game_tick_length)
@@ -37,7 +34,7 @@ func animation_place(game_tick_length:float) -> void:
 	%BubbleAnimationPlayer.speed_scale = .1
 	%BubbleAnimationPlayer.queue("idle")
 
-func animation_pop(game_tick_length:float) -> void:
+func animation_pop() -> void:
 	%BubbleAnimationPlayer.speed_scale = 1 / BUBBLE_POP_DURATION
 	%BubbleAnimationPlayer.play("pop")
 	
