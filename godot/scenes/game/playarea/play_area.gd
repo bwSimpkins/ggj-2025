@@ -19,6 +19,7 @@ var bubble_grid: Dictionary = {}
 var spawn_pos: Vector2i
 var total_score = 0
 var index = -1
+var tetronimo_max = 6
 
 
 
@@ -39,7 +40,7 @@ func _ready() -> void:
 		for col in %Grid.width:
 			bubble_grid[row][col] = null
 			
-	spawn_pos = Vector2i(int(%Grid.width / 2), %Grid.height - 1)
+	spawn_pos = Vector2i(int(%Grid.width / 2), %Grid.height - 5)
 			
 	_spawn_tetromino()
 	
@@ -47,7 +48,10 @@ func _ready() -> void:
 func _spawn_tetromino() -> void:
 	var tetromino = TETROMINO.instantiate()
 	tetromino.position = spawn_pos * PIXELS_TO_UNITS
-	tetromino.letter = ["I", "O", "T", "J", "L", "S", "Z"].pick_random()
+	var tetromino_selected = int(randf_range(0,tetronimo_max+1))
+	tetromino.letter = Tetromino.TETROMINO_MAP.keys()[tetromino_selected] #picks random letter from tetromino maps
+	if tetronimo_max != Tetromino.TETROMINO_MAP.size():
+		tetronimo_max += .25
 	tetromino.Placed.connect(_on_placed)
 	add_child(tetromino)
 	

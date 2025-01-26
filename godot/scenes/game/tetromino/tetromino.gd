@@ -22,6 +22,14 @@ const TETROMINO_COLORS = {
 	"S": Color(0, 0.941, 0),
 }
 
+const _CUSTOM_PIVOT = {
+	"O": Vector2(0.5, -0.5),
+	"O4": Vector2(0.5, -0.5),
+	"I": Vector2(0.5, -0.5),
+	"U2": Vector2(0.5, -0.5),
+	"Y2": Vector2(0.5, -0.5),
+
+}
 const TETROMINO_MAP = {
 	"I": [Vector2.LEFT, Vector2.ZERO, Vector2.RIGHT, Vector2(2, 0)],
 	"O": [Vector2.ZERO, Vector2.UP, Vector2(1, -1), Vector2.RIGHT],
@@ -30,16 +38,33 @@ const TETROMINO_MAP = {
 	"L": [Vector2.LEFT, Vector2.ZERO, Vector2.RIGHT, Vector2(1, -1)],
 	"Z": [Vector2.ZERO, Vector2.RIGHT, Vector2.UP, Vector2(-1, -1)],
 	"S": [Vector2.ZERO, Vector2.LEFT, Vector2.UP, Vector2(1, -1)],
-}
+	"U" : [Vector2(-1, -1), Vector2(-1, 0), Vector2(0, 0), Vector2(1, 0), Vector2(1, -1), ],
+	"I6": [Vector2(0, 1), Vector2(0, -1), Vector2(0, 0), Vector2(0, -2), Vector2(0, -3), Vector2(0, 2), ],
+	"O3x3": [Vector2(-1, 1), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(1, -1), Vector2(0, -1), Vector2(-1, -1), Vector2(-1, 0), Vector2(0, 0), ],
+	"E" : [Vector2(0, 0), Vector2(-2, 0), Vector2(2, 0), Vector2(-2, -1), Vector2(-1, 0), Vector2(0, -1), Vector2(1, 0), Vector2(2, -1), ],
+	"Y": [Vector2(0, 1), Vector2(0, 0), Vector2(-1, 0), Vector2(-1, -1), Vector2(1, 0), Vector2(1, -1), ],
+	"O4x4": [Vector2(-1, 1), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(1, -1), Vector2(0, -1), Vector2(-1, -1), Vector2(-1, 0), Vector2(0, 0), Vector2(-1, -2), Vector2(0, -2), Vector2(1, -2), Vector2(2, -2), Vector2(2, -1), Vector2(2, 0), Vector2(2, 1), ], 
+	"X": [Vector2(-1, 1), Vector2(0, 0), Vector2(1, -1), Vector2(-1, -1), Vector2(1, 1), ],
+	"RING" : [Vector2(-1, -1), Vector2(-1, 0), Vector2(-1, 1), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(1, -1), Vector2(0, -1), ],
+	"I2x8": [Vector2(0, 1), Vector2(0, -1), Vector2(0, 0), Vector2(0, -2), Vector2(0, -3), Vector2(0, 2), Vector2(0, -4), Vector2(0, 3), Vector2(1, -4), Vector2(1, -3), Vector2(1, -2), Vector2(1, -1), Vector2(1, 0), Vector2(1, 1), Vector2(1, 2), Vector2(1, 3), ],
+	"U2": [Vector2(-2, -1), Vector2(-2, 0), Vector2(-2, 1), Vector2(-1, 1), Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(2, -1), Vector2(2, 0), Vector2(2, 1), Vector2(-1, 0), Vector2(0, 0), Vector2(-2, -2), Vector2(2, -2), Vector2(-1, -2), Vector2(-1, -1), Vector2(3, 1), Vector2(3, 0), Vector2(3, -1), Vector2(3, -2), ],
+	"E2" : [Vector2(0, -1), Vector2(0, 0), Vector2(-2, 0), Vector2(-2, -1), Vector2(2, 0), Vector2(2, -1), Vector2(-2, 1), Vector2(-1, 1), Vector2(0, 1), Vector2(1, 1), Vector2(2, 1), ],
+	"Y2": [Vector2(-2, -2), Vector2(-2, -1), Vector2(-1, -2), Vector2(-1, -1), Vector2(0, 0), Vector2(0, 1), Vector2(0, 2), Vector2(0, 3), Vector2(1, 0), Vector2(1, 1), Vector2(1, 2), Vector2(1, 3), Vector2(2, -2), Vector2(2, -1), Vector2(3, -2), Vector2(3, -1), Vector2(-2, -4), Vector2(-2, -3), Vector2(-1, -4), Vector2(-1, -3), Vector2(0, -2), Vector2(0, -1), Vector2(1, -2), Vector2(1, -1), Vector2(2, -4), Vector2(2, -3), Vector2(3, -4), Vector2(3, -3), ],
+	"DoubleBar": [Vector2(-2, -2), Vector2(-2, -1), Vector2(-2, 0), Vector2(-2, 1), Vector2(-2, 2), Vector2(2, 0), Vector2(2, -1), Vector2(2, -2), Vector2(2, 1), Vector2(2, 2), ],
+	"X2": [Vector2(0, 0), Vector2(1, 0), Vector2(0, -1), Vector2(1, -1), Vector2(2, -2), Vector2(3, -2), Vector2(3, -3), Vector2(2, -3), Vector2(-1, -3), Vector2(-1, -2), Vector2(-2, -2), Vector2(-2, -3), Vector2(-1, 1), Vector2(-2, 1), Vector2(-2, 2), Vector2(-1, 2), Vector2(2, 1), Vector2(2, 2), Vector2(3, 2), Vector2(3, 1), ],
+	"RING2": [Vector2(-2, -2), Vector2(-2, -1), Vector2(-2, 0), Vector2(-2, 1), Vector2(-2, 2), Vector2(-1, 2), Vector2(0, 2), Vector2(1, 2), Vector2(2, 2), Vector2(2, 1), Vector2(2, 0), Vector2(2, -1), Vector2(2, -2), Vector2(1, -2), Vector2(0, -2), Vector2(-1, -2), Vector2(-3, -3), Vector2(-3, -2), Vector2(-3, -1), Vector2(-3, 0), Vector2(-3, 1), Vector2(-3, 2), Vector2(-3, 3), Vector2(-2, 3), Vector2(-1, 3), Vector2(0, 3), Vector2(1, 3), Vector2(2, 3), Vector2(3, 3), Vector2(3, 2), Vector2(3, 1), Vector2(3, 0), Vector2(3, -1), Vector2(3, -2), Vector2(3, -3), Vector2(2, -3), Vector2(1, -3), Vector2(0, -3), Vector2(-1, -3), Vector2(-2, -3), ],
+} 
+
 
 const BUBBLE := preload("res://scenes/game/tetromino/bubble.tscn")
 
 var _current_rotation: int = 0
 
 func _ready() -> void:
+	
 	play_area = get_parent()
-	assert(letter in TETROMINO_MAP and letter in TETROMINO_COLORS)
-	var color = TETROMINO_COLORS[letter]
+	assert(letter in TETROMINO_MAP)
+	var color = TETROMINO_COLORS[letter] if TETROMINO_COLORS.has(letter) else TETROMINO_COLORS.values().pick_random()
 	for pos in TETROMINO_MAP[letter]:
 		var bubble = BUBBLE.instantiate()
 		bubble.modulate = color
@@ -82,7 +107,7 @@ func process_rotate(degrees: int) -> bool:
 	
 
 func _rotate(pos: Vector2, degrees: int) -> Vector2:
-	var pivot := Vector2(0.5, -0.5) if letter == 'I' || letter == 'O' else Vector2.ZERO
+	var pivot: Vector2 = _CUSTOM_PIVOT[letter] if _CUSTOM_PIVOT.has(letter) else Vector2.ZERO
 	var relative_pos = pos - pivot
 	var rotated_pos = relative_pos
 	if degrees == 90:
