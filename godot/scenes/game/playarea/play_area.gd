@@ -149,13 +149,14 @@ func _handle_popped_bubbles(bubbles_positions: Array[Vector2i]) -> void:
 			bubble_shifts[below_position] += 1
 			
 	var ordinal: int = 0
-	for bubble in bubbles:
-		bubble.pop(ordinal)
-		ordinal += 1
 	
 	PoppedBubbles.emit(bubbles)
 	
-	await get_tree().create_timer(ordinal * .03).timeout #fix
+	for bubble in bubbles:
+		bubble.pop(ordinal)
+		ordinal += 1
+		
+	await bubbles.back().BubblePopped
 	
 	var finished_falling = false
 	for row in range(0,  %Grid.height):
@@ -183,8 +184,8 @@ var _GAME_OVER: Array[Vector2] = [
 	Vector2(6, 3), Vector2(6, 2), Vector2(6, 1), Vector2(7, 0), Vector2(8, 0), Vector2(9, 0), 
 	Vector2(7, 3), Vector2(8, 3), Vector2(9, 3), Vector2(10, 1), Vector2(10, 2), Vector2(10, 3), 
 	Vector2(10, 4), Vector2(10, 5), Vector2(10, 6), Vector2(12, 6), Vector2(12, 5), Vector2(12, 4),
-	 Vector2(12, 3), Vector2(12, 2), Vector2(12, 1), Vector2(12, 0), Vector2(13, 1), Vector2(14, 2),
-	 Vector2(14, 3), Vector2(15, 1), Vector2(16, 0), Vector2(16, 1), Vector2(16, 2), Vector2(16, 3), 
+	Vector2(12, 3), Vector2(12, 2), Vector2(12, 1), Vector2(12, 0), Vector2(13, 1), Vector2(14, 2),
+	Vector2(14, 3), Vector2(15, 1), Vector2(16, 0), Vector2(16, 1), Vector2(16, 2), Vector2(16, 3), 
 	Vector2(16, 4), Vector2(16, 5), Vector2(16, 6), Vector2(18, 0), Vector2(18, 1), Vector2(18, 2), 
 	Vector2(18, 3), Vector2(18, 4), Vector2(18, 5), Vector2(18, 6), Vector2(19, 6), Vector2(20, 6), 
 	Vector2(21, 6), Vector2(19, 3), Vector2(19, 0), Vector2(20, 0), Vector2(21, 0), Vector2(20, 3), 
