@@ -39,6 +39,8 @@ func _on_play_area_popped_bubbles(bubbles: Array[Bubble]) -> void:
 	
 	# Add cleared score to the total score
 	total_score += cleared_score
+	
+	# Update score
 	update_score_label(total_score, cleared_score, true) #show total cleared score
 	await get_tree().create_timer(.5).timeout
 	update_score_label(total_score, 0, false)
