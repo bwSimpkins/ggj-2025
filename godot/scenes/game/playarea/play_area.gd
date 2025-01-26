@@ -64,7 +64,7 @@ func _ready() -> void:
 		for vec in Tetromino.TETROMINO_MAP[letter]:
 			max_tetromino_radius = max(max_tetromino_radius, int(abs(vec.x)))
 			
-	tetrominos_until_power_up = randi_range(min_tetrominos_per_powerup >> 1, max_tetrominos_per_powerup >> 1)
+	tetrominos_until_power_up = randi_range(min_tetrominos_per_powerup / 2, max_tetrominos_per_powerup / 2)
 	_spawn_tetromino()
 	
 	
@@ -112,7 +112,6 @@ func _get_random_empty_cell() -> Vector2i:
 	
 	
 func _on_placed(bubbles: Array[Bubble], tetromino_position: Vector2) -> void:
-	var changed_rows: Dictionary = {}
 	var game_over := false
 	for bubble in bubbles:
 		bubble.position += tetromino_position
@@ -128,13 +127,12 @@ func _on_placed(bubbles: Array[Bubble], tetromino_position: Vector2) -> void:
 		add_child(bubble)
 		
 		bubble_grid[row][col] = bubble
-		changed_rows[row] = true
 		
 	if game_over:
 		_handle_game_over()
 		return
 		
-	await _handle_placed_bubbles(changed_rows.keys())
+	await _handle_placed_bubbles()
 	_spawn_tetromino()
 	
 	
@@ -154,12 +152,10 @@ func _handle_game_over():
 		
 	
 
-func _handle_placed_bubbles(changed_rows: Array) -> void:
+func _handle_placed_bubbles() -> void:
 	var consecutive_bubbles_pop = min(%Grid.width, CONSECUTIVE_BUBBLE_POP)
-	
-	changed_rows.sort()
 	var popped_bubbles: Array[Vector2i] = []
-	for row in changed_rows:
+	for row in range(%Grid.height):
 		var cols = bubble_grid[row].keys()
 		cols.sort()
 		var cols_with_bubbles: Array[int] = []
@@ -173,6 +169,11 @@ func _handle_placed_bubbles(changed_rows: Array) -> void:
 
 
 func _get_consecutive(sorted_arr: Array[int], _min: int) -> Array[int]:
+	const EMPTY: Array[int] = []
+	
+	if sorted_arr.size() == 0:
+		return EMPTY
+	
 	var consecutive_numbers: Array[int] = [sorted_arr[0]]
 
 	for i in range(1, sorted_arr.size()):
@@ -182,8 +183,7 @@ func _get_consecutive(sorted_arr: Array[int], _min: int) -> Array[int]:
 			return consecutive_numbers
 		else:
 			consecutive_numbers = [sorted_arr[i]] 
-			
-	const EMPTY: Array[int] = []
+	
 	return consecutive_numbers if consecutive_numbers.size() >= _min else EMPTY
 
 	
@@ -231,6 +231,8 @@ func _handle_popped_bubbles(bubbles_positions: Array[Vector2i]) -> void:
 			
 	if finished_falling:
 		await finished_falling
+		
+	await _handle_placed_bubbles()
 		
 		
 		
