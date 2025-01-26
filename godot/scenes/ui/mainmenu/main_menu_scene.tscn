@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cik30de5gaaah" path="res://scenes/game/ingame_scene.tscn" id="2_nl5i6"]
 [ext_resource type="PackedScene" uid="uid://g4qhvbvdm62w" path="res://scenes/ui/settings/game_settings_scene.tscn" id="3_dgs4d"]
 [ext_resource type="PackedScene" uid="uid://bkk87o2ooo6at" path="res://ui/overlays/fade_overlay.tscn" id="3_kf1us"]
-[ext_resource type="Texture2D" path="res://visualassets/Transparentstreetstyle_SLORTIZ.png" id="4_rwi3m"]
+[ext_resource type="Texture2D" uid="uid://ua6a087e5dok" path="res://visualassets/Transparentstreetstyle_SLORTIZ.png" id="4_rwi3m"]
 [ext_resource type="AudioStream" uid="uid://cyru18k5byy8p" path="res://music/ProjectZodiac-menumusic.wav" id="6_pma5s"]
 [ext_resource type="PackedScene" uid="uid://1c257f21k3oc" path="res://scenes/game/tetromino/bubble.tscn" id="7_g0lrd"]
 
