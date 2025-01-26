@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfb0haxa0qyqw"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cuuo7"]
+load_path = "res://.godot/imported/Tetris background.png-a04e28a5d691cb9e399f9a559f936d3a.ctex"
+
+[node name="TetrisBackground" type="Sprite2D"]
+modulate = Color(0.418576, 0.255653, 0.432486, 1)
+position = Vector2(304.5, 184)
+scale = Vector2(0.261328, 0.29121)
+texture = SubResource("CompressedTexture2D_cuuo7")

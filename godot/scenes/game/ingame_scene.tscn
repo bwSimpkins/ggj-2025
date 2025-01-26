@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cik30de5gaaah"]
+[gd_scene load_steps=21 format=3 uid="uid://cik30de5gaaah"]
 
 [ext_resource type="Script" path="res://scenes/game/ingame_scene.gd" id="1_s0oxc"]
 [ext_resource type="PackedScene" uid="uid://it8krv030uwn" path="res://scenes/game/playarea/play_area.tscn" id="4_6x0xm"]
@@ -29,6 +29,104 @@ stream_5 = ExtResource("12_o66o3")
 stream_6 = ExtResource("13_71ku8")
 stream_7 = ExtResource("14_qu3nv")
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cuuo7"]
+load_path = "res://.godot/imported/Tetris background.png-a04e28a5d691cb9e399f9a559f936d3a.ctex"
+
+[sub_resource type="Animation" id="Animation_i8hd7"]
+length = 2.0
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TetrisBackground:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.7, 0.9, 1.2, 1.4, 1.6, 1.8, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.384863, 0.680379, 0.755166, 1), Color(0.549087, 0.627118, 0.813991, 1), Color(0.77019, 0.529275, 0.793812, 1), Color(0.85329, 0.524392, 0.533681, 1), Color(0.797999, 0.578159, 0.371587, 1), Color(0.669063, 0.643537, 0.337921, 1), Color(0.455715, 0.700538, 0.467525, 1), Color(0.748214, 0.92273, 0.771975, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TetrisBackground:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.347817, 0.347817, 0.347817, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_x133n"]
+resource_name = "background_idle"
+length = 2.0
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("TetrisBackground:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2),
+"transitions": PackedFloat32Array(1, 1.07177, 0.450626, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.667124, 0.912168, 0.974922, 1), Color(0.841391, 0.858479, 0.96257, 1), Color(0.919693, 0.835407, 0.906988, 1), Color(0.991702, 0.715918, 0.697524, 1), Color(0.959519, 0.836494, 0.77498, 1), Color(0.99594, 0.847398, 0.475351, 1), Color(0.918345, 0.873634, 0.597456, 1), Color(0.706884, 0.962555, 0.561963, 1), Color(0.775253, 0.957153, 0.65285, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/path = NodePath("TetrisBackground:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TetrisBackground:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.7, 0.9, 1.2, 1.4, 1.6, 1.8, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.384863, 0.680379, 0.755166, 1), Color(0.549087, 0.627118, 0.813991, 1), Color(0.77019, 0.529275, 0.793812, 1), Color(0.85329, 0.524392, 0.533681, 1), Color(0.797999, 0.578159, 0.371587, 1), Color(0.669063, 0.643537, 0.337921, 1), Color(0.455715, 0.700538, 0.467525, 1), Color(0.748214, 0.92273, 0.771975, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_hs1se"]
+resource_name = "score_flash"
+length = 0.1
+step = 0.0175
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TetrisBackground:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0175439, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.347817, 0.347817, 0.347817, 1), Color(1, 1, 1, 1), Color(0.347817, 0.347817, 0.347817, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v5c45"]
+_data = {
+"RESET": SubResource("Animation_i8hd7"),
+"background_idle": SubResource("Animation_x133n"),
+"score_flash": SubResource("Animation_hs1se")
+}
+
 [node name="IngameScene" type="Node2D"]
 script = ExtResource("1_s0oxc")
 
@@ -37,6 +135,7 @@ script = ExtResource("1_s0oxc")
 [node name="FadeOverlay" parent="UI" instance=ExtResource("4_dkp7h")]
 unique_name_in_owner = true
 visible = false
+color = Color(0.187176, 0.187176, 0.187176, 1)
 
 [node name="PauseOverlay" parent="UI" instance=ExtResource("5_kwkh4")]
 unique_name_in_owner = true
@@ -62,3 +161,17 @@ bus = &"Music"
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamPlaylist_fbvm3")
 bus = &"Sound"
+
+[node name="TetrisBackground" type="Sprite2D" parent="."]
+self_modulate = Color(0.347817, 0.347817, 0.347817, 1)
+show_behind_parent = true
+position = Vector2(287, 171)
+scale = Vector2(0.239844, 0.266667)
+texture = SubResource("CompressedTexture2D_cuuo7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_v5c45")
+}
+speed_scale = 0.1
