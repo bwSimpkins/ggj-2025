@@ -19,6 +19,12 @@ const TETROMINO_COLORS = {
 	"L": Color(0.941, 0.627, 0),
 	"Z": Color(0.941, 0, 0),
 	"S": Color(0, 0.941, 0),
+	#additional unique colors
+	"Y": Color(0.912, 0, 0.47),
+	"BV": Color(0, 0.744, 0.703),
+	"ff": Color(0, 0.769, 0.665),
+	"VV": Color(0.963, 0.759, 0),
+	"PP": Color(0, 0.767, 0.723),
 }
 
 const _CUSTOM_PIVOT = {
