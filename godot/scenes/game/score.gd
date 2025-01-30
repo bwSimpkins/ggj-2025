@@ -1,6 +1,6 @@
 extends Node2D
 
-var total_score = 0
+var total_score: float = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -21,10 +21,8 @@ func _on_play_area_popped_bubbles(bubbles: Array[Bubble]) -> void:
 		await bubble.BubblePopped
 		if bubble.get_powerup() != null:
 			if bubble.get_powerup().type == "mult":
-				print("mult power up ", bubble.get_powerup().value)
 				multiplier *= bubble.get_powerup().value
 			else:
-				print("add power up ", bubble.get_powerup().value)
 				bubble.score += bubble.get_powerup().value
 		cleared_score += bubble.score
 		update_score_label(total_score, cleared_score, multiplier)
@@ -45,15 +43,18 @@ func _on_play_area_popped_bubbles(bubbles: Array[Bubble]) -> void:
 	update_score_label(total_score, 0, 0)
 
 # Updates the HUD label with the new total score
-func update_score_label(score: int, additive: float, multiplicative: float):
+func update_score_label(score: float, additive: float, multiplicative: float):
 	var score_string = str(score)
+	var mulitplicative_string = str(multiplicative)
 	if score > 99_999_99:
 		score_string = to_scientific_notation(score)
+	if multiplicative > 99_999_99:
+		mulitplicative_string = to_scientific_notation(multiplicative)
 	var score_label =  $HUD/Label
 	if additive == 0:
 		score_label.text = str("Score:\n") + score_string
 	else:
-		score_label.text = str("Score:\n") + score_string + " + " + str(additive) + " x " + str(multiplicative)
+		score_label.text = str("Score:\n") + score_string + " + " + str(additive) + " x " + mulitplicative_string
 	
 	
 func to_scientific_notation(number: float) -> String:
